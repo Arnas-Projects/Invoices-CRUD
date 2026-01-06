@@ -1,0 +1,406 @@
+$width: 210mm;
+$height: 297mm;
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Zalando Sans", sans-serif;
+}
+
+body {
+    margin: 0 25px;
+    height: $height;
+    margin: 0 auto;
+}
+
+.container {
+    width: 100%;
+    max-width: $width;
+    margin: 0 auto;
+
+}
+
+header {
+    // background-color: lightsalmon;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px auto;
+
+    div.header-div {
+        width: 100%;
+        max-width: $width;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+
+        div.invoice-header {
+            font-size: 36px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        div.header-logo {
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
+div.sask-div {
+    // background-color: lightsalmon;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 50px auto;
+    line-height: 1.5;
+
+    div.sask-nr-div {
+        // background-color: goldenrod;
+        display: flex;
+        max-width: 100%;
+        justify-content: space-between;
+
+        span.sask-nr {
+            margin-left: 10px;
+            font-weight: 500;
+        }
+
+        button.bebras-button {
+            text-transform: uppercase;
+            padding: 10px 20px;
+            border: 3px solid darkslategray;
+            color: darkslategray;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s ease-out;
+        }
+
+        button.bebras-button:hover {
+            transform: translateY(-5px);
+            color: white;
+            background-color: darkslategray;
+        }
+
+        button.bebras-button:active {
+            transform: translateY(0px) scale(1);
+        }
+    }
+
+    div.sask-date-div {
+        // background-color: goldenrod;
+        display: flex;
+        max-width: 100%;
+        justify-content: space-between;
+
+        p {
+            margin-right: 10px;
+
+            span.sask-data {
+                margin-left: 10px;
+                font-weight: 500;
+            }
+        }
+
+        button.bebras-button2 {
+            padding: 10px 20px;
+            border: 3px solid darkslategray;
+            color: darkslategray;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s ease-out;
+        }
+
+        button.bebras-button2:hover {
+            transform: translateY(-5px);
+            color: white;
+            background-color: darkslategray;
+        }
+
+        button.bebras-button2:active {
+            transform: translateY(0px) scale(1);
+        }
+    }
+}
+
+section.buyer-seller {
+    // background-color: lightsalmon;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    // padding-right: 150px;
+    margin-bottom: 70px;
+
+    div.buyer {
+        display: flex;
+        flex-direction: column;
+
+        h4 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.5;
+            padding-right: 10px;
+            margin-right: 10px;
+            font-weight: 600;
+
+            span.buyer-span {
+                font-weight: 400;
+            }
+        }
+    }
+
+    div.seller {
+        display: flex;
+        flex-direction: column;
+
+        h4 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.5;
+            padding-right: 10px;
+            font-weight: 600;
+
+            span.seller-span {
+                font-weight: 400;
+            }
+        }
+    }
+}
+
+section.products-list {
+    // background-color: lightsalmon;
+    display: flex;
+    margin: 0 auto 50px auto;
+    justify-content: center;
+    position: relative;
+    // gap: 10px;
+
+    div.eilesNr,
+    div.preke,
+    div.kiekis,
+    div.vnt-kaina,
+    div,
+    nuolaida,
+    div.nuolaidos-tipas,
+    div.suma-be-nuolaidos,
+    div.suma-su-nuolaida {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        padding: 0 5px;
+        // flex-wrap: wrap;
+
+        .special {
+            // width: 200px;
+            justify-content: center;
+        }
+
+        h4 {
+            padding: 20px 5px;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            height: 100px;
+            // border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        p.eiles-numeris {
+            padding: 5px 5px;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            align-self: center;
+            width: 100%;
+            min-height: 50px;
+            box-sizing: border-box;
+            font-weight: 500;
+        }
+
+        p.prekiu-listas {
+            padding: 5px 5px;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            align-self: center;
+            width: 100%;
+            min-height: 50px;
+            box-sizing: border-box;
+        }
+    }
+}
+
+section.products-list::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100px;
+    border-bottom: 1px solid black;
+    z-index: 1;
+}
+
+
+section.final-sum {
+    margin-bottom: 50px;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: last baseline;
+        // padding-right: 50px;
+
+        span.total-sums {
+            font-weight: bold;
+        }
+    }
+}
+
+
+div.container {
+
+    p.apmoketi-iki {
+        font-weight: 500;
+        font-size: 18px;
+        // max-width: $width;
+        // margin: auto;
+        margin-bottom: 15px;
+        margin-right: 10px;
+        // width: 180px;
+    }
+}
+
+section.payment-term {
+    // background-color: lightsalmon;
+    width: 100%;
+    max-width: $width;
+    margin: auto;
+
+    div.sask-israse {
+        // background-color: goldenrod;
+        display: flex;
+        line-height: 2;
+        margin-bottom: 10px;
+
+        div {
+            width: 180px;
+        }
+
+        div.israse-vardas {
+            line-height: 2;
+        }
+
+        div.line {
+            border-bottom: 1.5px solid black;
+            width: 350px;
+            // height: 2px;
+            // border-radius: 30px;
+            // background-color: black;
+            // // margin: 28px auto;
+            // align-items: center;
+        }
+
+        p {
+            width: 200px;
+            font-style: italic;
+            font-size: 14px;
+        }
+    }
+
+    div.sask-prieme {
+        // background-color: goldenrod;
+        display: flex;
+        line-height: 2;
+        margin-bottom: 10px;
+
+        div {
+            width: 180px;
+        }
+
+        div.prieme-vardas {
+            line-height: 2;
+        }
+
+        div.line {
+            border-bottom: 1.5px solid black;
+            width: 350px;
+            // height: 2px;
+            // border-radius: 30px;
+            // background-color: black;
+            // margin: 28px auto;
+            // align-items: center;
+        }
+
+        p {
+            width: 200px;
+            font-style: italic;
+            font-size: 14px;
+        }
+    }
+}
+
+
+
+
+// -----------------------------------------------------------------------------------
+// SECRET WEAPON
+
+section.bebras-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 25px;
+    font-family: "Lobster", sans-serif;
+    font-size: 50px;
+    margin-bottom: 100px;
+
+    img.bebras-img {
+        width: 500px;
+    }
+
+    p.bebras-say {
+        font-family: "Lobster", sans-serif;
+        font-size: 50px;
+    }
+
+    p.bebras-say2 {
+        font-family: "Lobster", sans-serif;
+        color: crimson;
+        font-size: 60px;
+    }
+
+    button.fix {
+        font-family: "Lobster", sans-serif;
+        font-size: 50px;
+        padding: 20px 40px;
+        border: 5px solid darkslategray;
+        color: darkslategray;
+        font-weight: bold;
+        border-radius: 70px;
+        cursor: pointer;
+        transition: 0.3s ease-out;
+    }
+
+    button.fix:hover {
+        transform: translateY(-5px);
+        color: white;
+        background-color: darkslategray;
+    }
+
+    button.fix:active {
+        transform: translateY(0px) scale(1);
+    }
+}
