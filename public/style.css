@@ -109,6 +109,20 @@ section.buyer-seller {
   justify-content: space-between;
   margin-bottom: 70px;
 }
+section.buyer-seller input.buyer-input {
+  border: 1px dashed #ccc;
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  padding: 2px 5px;
+  max-width: 250px;
+  color: #333;
+  border-radius: 4px;
+}
+section.buyer-seller input.buyer-input:focus {
+  outline: none;
+  border: 1px solid #ff6600;
+  background: #fff;
+}
 section.buyer-seller div.buyer {
   display: flex;
   flex-direction: column;
@@ -147,39 +161,52 @@ section.products-list {
   justify-content: center;
   position: relative;
 }
-section.products-list div.eilesNr,
-section.products-list div.preke,
-section.products-list div.kiekis,
+section.products-list div.eilesNr input.edit-qty,
+section.products-list div.preke input.edit-qty,
+section.products-list div.kiekis input.edit-qty {
+  width: 60px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+  margin: 2px;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  align-self: center;
+  box-sizing: border-box;
+}
+section.products-list div.eilesNr input.edit-qty:focus,
+section.products-list div.preke input.edit-qty:focus,
+section.products-list div.kiekis input.edit-qty:focus {
+  border-color: #ff6600;
+}
 section.products-list div.vnt-kaina,
 section.products-list div,
-section.products-list nuolaida,
+section.products-list div.nuolaida,
 section.products-list div.nuolaidos-tipas,
 section.products-list div.suma-be-nuolaidos,
 section.products-list div.suma-su-nuolaida {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   padding: 0 5px;
 }
-section.products-list div.eilesNr .special,
-section.products-list div.preke .special,
-section.products-list div.kiekis .special,
 section.products-list div.vnt-kaina .special,
 section.products-list div .special,
-section.products-list nuolaida .special,
+section.products-list div.nuolaida .special,
 section.products-list div.nuolaidos-tipas .special,
 section.products-list div.suma-be-nuolaidos .special,
 section.products-list div.suma-su-nuolaida .special {
   justify-content: center;
 }
-section.products-list div.eilesNr h4,
-section.products-list div.preke h4,
-section.products-list div.kiekis h4,
 section.products-list div.vnt-kaina h4,
 section.products-list div h4,
-section.products-list nuolaida h4,
+section.products-list div.nuolaida h4,
 section.products-list div.nuolaidos-tipas h4,
 section.products-list div.suma-be-nuolaidos h4,
 section.products-list div.suma-su-nuolaida h4 {
@@ -190,12 +217,9 @@ section.products-list div.suma-su-nuolaida h4 {
   height: 100px;
   border-bottom: 1px solid black;
 }
-section.products-list div.eilesNr p.eiles-numeris,
-section.products-list div.preke p.eiles-numeris,
-section.products-list div.kiekis p.eiles-numeris,
 section.products-list div.vnt-kaina p.eiles-numeris,
 section.products-list div p.eiles-numeris,
-section.products-list nuolaida p.eiles-numeris,
+section.products-list div.nuolaida p.eiles-numeris,
 section.products-list div.nuolaidos-tipas p.eiles-numeris,
 section.products-list div.suma-be-nuolaidos p.eiles-numeris,
 section.products-list div.suma-su-nuolaida p.eiles-numeris {
@@ -210,12 +234,9 @@ section.products-list div.suma-su-nuolaida p.eiles-numeris {
   box-sizing: border-box;
   font-weight: 500;
 }
-section.products-list div.eilesNr p.prekiu-listas,
-section.products-list div.preke p.prekiu-listas,
-section.products-list div.kiekis p.prekiu-listas,
 section.products-list div.vnt-kaina p.prekiu-listas,
 section.products-list div p.prekiu-listas,
-section.products-list nuolaida p.prekiu-listas,
+section.products-list div.nuolaida p.prekiu-listas,
 section.products-list div.nuolaidos-tipas p.prekiu-listas,
 section.products-list div.suma-be-nuolaidos p.prekiu-listas,
 section.products-list div.suma-su-nuolaida p.prekiu-listas {
@@ -228,6 +249,55 @@ section.products-list div.suma-su-nuolaida p.prekiu-listas {
   width: 100%;
   min-height: 50px;
   box-sizing: border-box;
+}
+section.products-list div.vnt-kaina input.edit-name,
+section.products-list div input.edit-name,
+section.products-list div.nuolaida input.edit-name,
+section.products-list div.nuolaidos-tipas input.edit-name,
+section.products-list div.suma-be-nuolaidos input.edit-name,
+section.products-list div.suma-su-nuolaida input.edit-name {
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+section.products-list div.vnt-kaina input.edit-price,
+section.products-list div input.edit-price,
+section.products-list div.nuolaida input.edit-price,
+section.products-list div.nuolaidos-tipas input.edit-price,
+section.products-list div.suma-be-nuolaidos input.edit-price,
+section.products-list div.suma-su-nuolaida input.edit-price {
+  width: 70px;
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+section.products-list div.vnt-kaina .discount-edit-container,
+section.products-list div .discount-edit-container,
+section.products-list div.nuolaida .discount-edit-container,
+section.products-list div.nuolaidos-tipas .discount-edit-container,
+section.products-list div.suma-be-nuolaidos .discount-edit-container,
+section.products-list div.suma-su-nuolaida .discount-edit-container {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+section.products-list div.vnt-kaina .discount-edit-container input,
+section.products-list div .discount-edit-container input,
+section.products-list div.nuolaida .discount-edit-container input,
+section.products-list div.nuolaidos-tipas .discount-edit-container input,
+section.products-list div.suma-be-nuolaidos .discount-edit-container input,
+section.products-list div.suma-su-nuolaida .discount-edit-container input {
+  width: 50px;
+}
+section.products-list div.vnt-kaina .discount-edit-container select,
+section.products-list div .discount-edit-container select,
+section.products-list div.nuolaida .discount-edit-container select,
+section.products-list div.nuolaidos-tipas .discount-edit-container select,
+section.products-list div.suma-be-nuolaidos .discount-edit-container select,
+section.products-list div.suma-su-nuolaida .discount-edit-container select {
+  width: 60px;
 }
 
 section.products-list::after {

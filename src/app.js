@@ -1,5 +1,10 @@
 import OopCRUD from './crud-code.js';
 
+const InvoiceStorage = new OopCRUD('my_invoices');
+
+const currentPage = window.location.pathname;
+
+
 // -----------------------------------------------------------------------------------------------
 // Sąskaitos nr ir data
 const SaskaitosNr = document.querySelector('div.sask-nr-div > p');
@@ -30,35 +35,70 @@ const Pirkejas = document.querySelectorAll('section.buyer-seller > div.buyer > p
 
 const PrintBuyerData = BuyerData => {
 
-    const CompanyNameTag = document.createElement('span');
-    CompanyNameTag.innerText = BuyerData.company.buyer.name;
-    CompanyNameTag.classList.add('buyer-span');
-    Pirkejas[0].appendChild(CompanyNameTag);
+    // Determine if we are in a mode that allows editing
+    const isEditable = currentPage.includes('edit.html') && !window.location.search.includes('id=');
 
-    const CompanyAddress = document.createElement('span');
-    CompanyAddress.innerText = BuyerData.company.buyer.address;
-    CompanyAddress.classList.add('buyer-span');
-    Pirkejas[1].appendChild(CompanyAddress);
+    const fields = [
+        { value: BuyerData.company.buyer.name },
+        { value: BuyerData.company.buyer.address },
+        { value: BuyerData.company.buyer.code },
+        { value: BuyerData.company.buyer.vat },
+        { value: BuyerData.company.buyer.phone },
+        { value: BuyerData.company.buyer.email }
+    ];
 
-    const CompanyCode = document.createElement('span');
-    CompanyCode.innerText = BuyerData.company.buyer.code;
-    CompanyCode.classList.add('buyer-span');
-    Pirkejas[2].appendChild(CompanyCode);
+    fields.forEach((field, index) => {
+        let tag;
+        if (isEditable) {
+            tag = document.createElement('input');
+            tag.value = field.value;
+            tag.classList.add('buyer-input'); // We can style this in CSS
 
-    const CompanyVATnumber = document.createElement('span');
-    CompanyVATnumber.innerText = BuyerData.company.buyer.vat;
-    CompanyVATnumber.classList.add('buyer-span');
-    Pirkejas[3].appendChild(CompanyVATnumber);
+            // Step A.2: Sync changes back to the data object
+            tag.addEventListener('input', e => {
+                const keys = ['name', 'address', 'code', 'vat', 'phone', 'email'];
+                BuyerData.company.buyer[keys[index]] = e.target.value;
+            });
+        } else {
+            tag = document.createElement('span');
+            tag.innerText = field.value;
+            tag.classList.add('buyer-span');
+        }
+        // Clear anything existing (like labels) before appending
+        Pirkejas[index].appendChild(tag);
+    });
 
-    const CompanyMobileNumber = document.createElement('span');
-    CompanyMobileNumber.innerText = BuyerData.company.buyer.phone;
-    CompanyMobileNumber.classList.add('buyer-span');
-    Pirkejas[4].appendChild(CompanyMobileNumber);
 
-    const CompanyEmail = document.createElement('span');
-    CompanyEmail.innerText = BuyerData.company.buyer.email;
-    CompanyEmail.classList.add('buyer-span');
-    Pirkejas[5].appendChild(CompanyEmail);
+
+    // const CompanyNameTag = document.createElement('span');
+    // CompanyNameTag.innerText = BuyerData.company.buyer.name;
+    // CompanyNameTag.classList.add('buyer-span');
+    // Pirkejas[0].appendChild(CompanyNameTag);
+
+    // const CompanyAddress = document.createElement('span');
+    // CompanyAddress.innerText = BuyerData.company.buyer.address;
+    // CompanyAddress.classList.add('buyer-span');
+    // Pirkejas[1].appendChild(CompanyAddress);
+
+    // const CompanyCode = document.createElement('span');
+    // CompanyCode.innerText = BuyerData.company.buyer.code;
+    // CompanyCode.classList.add('buyer-span');
+    // Pirkejas[2].appendChild(CompanyCode);
+
+    // const CompanyVATnumber = document.createElement('span');
+    // CompanyVATnumber.innerText = BuyerData.company.buyer.vat;
+    // CompanyVATnumber.classList.add('buyer-span');
+    // Pirkejas[3].appendChild(CompanyVATnumber);
+
+    // const CompanyMobileNumber = document.createElement('span');
+    // CompanyMobileNumber.innerText = BuyerData.company.buyer.phone;
+    // CompanyMobileNumber.classList.add('buyer-span');
+    // Pirkejas[4].appendChild(CompanyMobileNumber);
+
+    // const CompanyEmail = document.createElement('span');
+    // CompanyEmail.innerText = BuyerData.company.buyer.email;
+    // CompanyEmail.classList.add('buyer-span');
+    // Pirkejas[5].appendChild(CompanyEmail);
 };
 
 
@@ -70,35 +110,68 @@ const Pardavejas = document.querySelectorAll('section.buyer-seller > div.seller 
 
 const PrintSellerData = SellerData => {
 
-    const CompanyNameTag = document.createElement('span');
-    CompanyNameTag.innerText = SellerData.company.seller.name;
-    CompanyNameTag.classList.add('seller-span');
-    Pardavejas[0].appendChild(CompanyNameTag);
+    // Determine if we are in a mode that allows editing
+    const isEditable = currentPage.includes('edit.html') && !window.location.search.includes('id=');
 
-    const CompanyAddress = document.createElement('span');
-    CompanyAddress.innerText = SellerData.company.seller.address;
-    CompanyAddress.classList.add('seller-span');
-    Pardavejas[1].appendChild(CompanyAddress);
+    const fields = [
+        { value: SellerData.company.seller.name },
+        { value: SellerData.company.seller.address },
+        { value: SellerData.company.seller.code },
+        { value: SellerData.company.seller.vat },
+        { value: SellerData.company.seller.phone },
+        { value: SellerData.company.seller.email }
+    ];
 
-    const CompanyCode = document.createElement('span');
-    CompanyCode.innerText = SellerData.company.seller.code;
-    CompanyCode.classList.add('seller-span');
-    Pardavejas[2].appendChild(CompanyCode);
+    fields.forEach((field, index) => {
+        let tag;
+        if (isEditable) {
+            tag = document.createElement('input');
+            tag.value = field.value;
+            tag.classList.add('buyer-input'); // We can style this in CSS
 
-    const CompanyVATnumber = document.createElement('span');
-    CompanyVATnumber.innerText = SellerData.company.seller.vat;
-    CompanyVATnumber.classList.add('seller-span');
-    Pardavejas[3].appendChild(CompanyVATnumber);
+            // Step A.2: Sync changes back to the data object
+            tag.addEventListener('input', e => {
+                const keys = ['name', 'address', 'code', 'vat', 'phone', 'email'];
+                SellerData.company.seller[keys[index]] = e.target.value;
+            });
+        } else {
+            tag = document.createElement('span');
+            tag.innerText = field.value;
+            tag.classList.add('seller-span');
+        }
+        // Clear anything existing (like labels) before appending
+        Pardavejas[index].appendChild(tag);
+    });
 
-    const CompanyMobileNumber = document.createElement('span');
-    CompanyMobileNumber.innerText = SellerData.company.seller.phone;
-    CompanyMobileNumber.classList.add('seller-span');
-    Pardavejas[4].appendChild(CompanyMobileNumber);
+    // const CompanyNameTag = document.createElement('span');
+    // CompanyNameTag.innerText = SellerData.company.seller.name;
+    // CompanyNameTag.classList.add('seller-span');
+    // Pardavejas[0].appendChild(CompanyNameTag);
 
-    const CompanyEmail = document.createElement('span');
-    CompanyEmail.innerText = SellerData.company.seller.email;
-    CompanyEmail.classList.add('seller-span');
-    Pardavejas[5].appendChild(CompanyEmail);
+    // const CompanyAddress = document.createElement('span');
+    // CompanyAddress.innerText = SellerData.company.seller.address;
+    // CompanyAddress.classList.add('seller-span');
+    // Pardavejas[1].appendChild(CompanyAddress);
+
+    // const CompanyCode = document.createElement('span');
+    // CompanyCode.innerText = SellerData.company.seller.code;
+    // CompanyCode.classList.add('seller-span');
+    // Pardavejas[2].appendChild(CompanyCode);
+
+    // const CompanyVATnumber = document.createElement('span');
+    // CompanyVATnumber.innerText = SellerData.company.seller.vat;
+    // CompanyVATnumber.classList.add('seller-span');
+    // Pardavejas[3].appendChild(CompanyVATnumber);
+
+    // const CompanyMobileNumber = document.createElement('span');
+    // CompanyMobileNumber.innerText = SellerData.company.seller.phone;
+    // CompanyMobileNumber.classList.add('seller-span');
+    // Pardavejas[4].appendChild(CompanyMobileNumber);
+
+    // const CompanyEmail = document.createElement('span');
+    // CompanyEmail.innerText = SellerData.company.seller.email;
+    // CompanyEmail.classList.add('seller-span');
+    // Pardavejas[5].appendChild(CompanyEmail);
 };
 
 
@@ -112,17 +185,36 @@ const PrekesPavadinimas = document.querySelector('section.products-list > div.pr
 
 const PrintRowNumberAndItemName = allItems => {
 
+    const isEditable = currentPage.includes('edit.html');
+
     allItems.items.forEach((oneItem, index) => {
 
         const IndexTag = document.createElement('p');
         IndexTag.innerText = (index + 1) + '.';
-        IndexTag.classList.add('eiles-numeris');
+        IndexTag.classList.add('prekes-listas');
         EilesNr.appendChild(IndexTag);
 
-        const ItemNameTag = document.createElement('p');
-        ItemNameTag.innerText = oneItem.description;
-        ItemNameTag.classList.add('prekiu-listas');
-        PrekesPavadinimas.appendChild(ItemNameTag);
+        // --- EDITABLE NAME ---
+        const tag = isEditable ? document.createElement('input') : document.createElement('p');
+
+        if (isEditable) {
+            tag.value = oneItem.description;
+            tag.classList.add('edit-name'); // You can style this in SCSS later
+            tag.addEventListener('input', e => {
+                oneItem.description = e.target.value;
+                // We don't need RefreshUI here because names don't change the math
+            });
+        } else {
+            tag.innerText = oneItem.description;
+        }
+
+        tag.classList.add('eiles-numeris');
+        PrekesPavadinimas.appendChild(tag);
+
+        // const ItemNameTag = document.createElement('p');
+        // ItemNameTag.innerText = oneItem.description;
+        // ItemNameTag.classList.add('prekiu-listas');
+        // PrekesPavadinimas.appendChild(ItemNameTag);
     });
 };
 
@@ -134,12 +226,35 @@ const Kiekis = document.querySelector('section.products-list > div.kiekis');
 
 const PrintQuantity = allItems => {
 
+    const isEditable = currentPage.includes('edit.html'); // && !window.location.search.includes('id=');
+
     allItems.items.forEach(oneItem => {
 
-        const QuantityTag = document.createElement('p');
-        QuantityTag.innerText = oneItem.quantity;
-        QuantityTag.classList.add('prekiu-listas');
-        Kiekis.appendChild(QuantityTag);
+        const tag = isEditable ? document.createElement('input') : document.createElement('p');
+
+        if (isEditable) {
+            tag.type = 'number';
+            tag.value = oneItem.quantity;
+            tag.classList.add('edit-qty');
+
+            // --- THE NEW PART ---
+            // Whenever the user types, update the object and refresh the screen
+            tag.addEventListener('input', e => {
+                oneItem.quantity = Number(e.target.value);
+                RefreshUI(allItems);
+            });
+            // --------------------
+        } else {
+            tag.innerText = oneItem.quantity;
+        }
+
+        tag.classList.add('prekiu-listas');
+        Kiekis.appendChild(tag);
+
+        // const QuantityTag = document.createElement('p');
+        // QuantityTag.innerText = oneItem.quantity;
+        // QuantityTag.classList.add('prekiu-listas');
+        // Kiekis.appendChild(QuantityTag);
     });
 }
 
@@ -151,13 +266,34 @@ const VNTkaina = document.querySelector('section.products-list > div.vnt-kaina')
 
 const PrintUnitPrice = allItems => {
 
+    const isEditable = currentPage.includes('edit.html');
+
     allItems.items.forEach(oneItem => {
 
-        const UnitPriceTag = document.createElement('p');
-        const PriceWithDecimal = oneItem.price.toFixed(2);
-        UnitPriceTag.innerText = PriceWithDecimal;
-        UnitPriceTag.classList.add('prekiu-listas');
-        VNTkaina.appendChild(UnitPriceTag);
+        const tag = isEditable ? document.createElement('input') : document.createElement('p');
+
+        if (isEditable) {
+            tag.type = 'number';
+            tag.step = '0.01'; // Allows decimals like 10.99
+            tag.value = oneItem.price;
+            tag.classList.add('edit-price');
+
+            tag.addEventListener('input', e => {
+                oneItem.price = Number(e.target.value);
+                RefreshUI(allItems); // Math changes, so we refresh!
+            });
+        } else {
+            tag.innerText = Number(oneItem.price.toFixed(2));
+        }
+
+        tag.classList.add('prekiu-listas');
+        VNTkaina.appendChild(tag);
+
+        // const UnitPriceTag = document.createElement('p');
+        // const PriceWithDecimal = oneItem.price.toFixed(2);
+        // UnitPriceTag.innerText = PriceWithDecimal;
+        // UnitPriceTag.classList.add('prekiu-listas');
+        // VNTkaina.appendChild(UnitPriceTag);
     });
 };
 
@@ -214,14 +350,70 @@ const CalculateRowSums = item => {
 const Nuolaida = document.querySelector('section.products-list > div.nuolaida');
 
 
-const PrintCalculatedDiscountColumn = CalculatedRows => {
+const PrintCalculatedDiscountColumn = (CalculatedRows, allItems) => {
 
-    CalculatedRows.forEach(oneSingleItem => {
+    const isEditable = currentPage.includes('edit.html');
 
-        const DiscountTag = document.createElement('p');
-        DiscountTag.innerText = oneSingleItem.SingleUnitDiscountText;
-        DiscountTag.classList.add('prekiu-listas');
-        Nuolaida.appendChild(DiscountTag);
+    CalculatedRows.forEach((calculatedRow, index) => {
+
+        const container = document.createElement('div');
+        container.classList.add('discount-edit-container');
+
+        // The original item from the main data array
+        const originalItem = allItems.items[index];
+
+        if (isEditable) {
+            // 1. Create Value Input
+            const valInput = document.createElement('input');
+            valInput.type = 'number';
+            valInput.value = originalItem.discount ? originalItem.discount.value : 0;
+            valInput.classList.add('edit-discount-val');
+
+            // 2. Create Type Selector
+            const typeSelect = document.createElement('select');
+            typeSelect.classList.add('edit-discount-type');
+
+            const options = [
+                { val: 'none', text: 'Nėra' },
+                { val: 'percentage', text: '%' },
+                { val: 'fixed', text: 'Eur' }
+            ];
+
+            options.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt.val;
+                o.innerText = opt.text;
+                if (originalItem.discount && originalItem.discount.type === opt.val) o.selected = true;
+                if (!originalItem.discount && opt.val === 'none') o.selected = true;
+                typeSelect.appendChild(o);
+            });
+
+            // Event Listeners for both
+            const updateDiscount = () => {
+                const newVal = Number(valInput.value);
+                const newType = typeSelect.value;
+
+                if (newType === 'none') {
+                    originalItem.discount = null;
+                } else {
+                    originalItem.discount = { type: newType, value: newVal };
+                }
+                RefreshUI(allItems);
+            };
+
+            valInput.addEventListener('input', updateDiscount);
+            typeSelect.addEventListener('change', updateDiscount);
+
+            container.appendChild(valInput);
+            container.appendChild(typeSelect);
+            Nuolaida.appendChild(container);
+        } else {
+            // View mode (same as before)
+            const DiscountTag = document.createElement('p');
+            DiscountTag.innerText = calculatedRow.SingleUnitDiscountText;
+            DiscountTag.classList.add('prekiu-listas');
+            Nuolaida.appendChild(DiscountTag);
+        }
     });
 };
 
@@ -295,18 +487,58 @@ const CalculateTotalSums = (CalculatedRows, shippingPrice = 0) => {
 
 
 const PridedamShipping = allItems => {
-    const shippingas = allItems.shippingPrice;
+    // const shippingas = allItems.shippingPrice;
+    const isEditable = currentPage.includes('edit.html');
     const shippingRowNumber = allItems.items.length + 1;
 
 
-    EilesNr.insertAdjacentHTML('beforeend', `<p>${shippingRowNumber}.</p>`);
-    PrekesPavadinimas.insertAdjacentHTML('beforeend', `<p>Transportavimo išlaidos</p>`);
-    Kiekis.insertAdjacentHTML('beforeend', `<p>1</p>`);
-    VNTkaina.insertAdjacentHTML('beforeend', `<p>${shippingas.toFixed(2)}</p>`);
-    Nuolaida.insertAdjacentHTML('beforeend', `<p>-</p>`);
+    // Row Number
+    EilesNr.insertAdjacentHTML('beforeend', `<p class="eiles-numeris">${shippingRowNumber}.</p>`);
 
-    SumaBeNuolaidos.insertAdjacentHTML('beforeend', `<p>${shippingas.toFixed(2)}</p>`);
-    SumaSuNuolaida.insertAdjacentHTML('beforeend', `<p>${shippingas.toFixed(2)}</p>`);
+    // Description
+    PrekesPavadinimas.insertAdjacentHTML('beforeend', `<p style='font-weight: 500;' class="prekiu-listas">Transportavimo išlaidos</p>`);
+
+    // Quantity (Fixed at 1)
+    Kiekis.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">1</p>`);
+
+    // VNTkaina.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">${shippingas.toFixed(2)}</p>`);
+    // Nuolaida.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">-</p>`);
+
+
+    // --- Price Column ---
+    if (isEditable) {
+        const shipInput = document.createElement('input');
+        shipInput.type = 'number';
+        shipInput.step = '0.01';
+        shipInput.value = allItems.shippingPrice;
+        shipInput.classList.add('edit-price'); // Use your existing CSS class
+
+        shipInput.addEventListener('input', e => {
+            allItems.shippingPrice = Number(e.target.value);
+            RefreshUI(allItems); // Recalculate totals immediately
+        });
+        VNTkaina.appendChild(shipInput);
+    } else {
+        VNTkaina.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">${allItems.shippingPrice.toFixed(2)}</p>`);
+    }
+
+    // Static columns
+    Nuolaida.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">-</p>`);
+
+    // Sum Columns (These get updated by RefreshUI, but we need initial placeholders)
+    const shipSumBe = document.createElement('p');
+    shipSumBe.classList.add('prekiu-listas', 'shipping-sum-be'); // Added specific class for clearing
+    shipSumBe.innerText = allItems.shippingPrice.toFixed(2);
+    SumaBeNuolaidos.appendChild(shipSumBe);
+
+    const shipSumSu = document.createElement('p');
+    shipSumSu.classList.add('prekiu-listas', 'shipping-sum-su'); // Added specific class for clearing
+    shipSumSu.innerText = allItems.shippingPrice.toFixed(2);
+    SumaSuNuolaida.appendChild(shipSumSu);
+
+
+    // SumaBeNuolaidos.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">${shippingas.toFixed(2)}</p>`);
+    // SumaSuNuolaida.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">${shippingas.toFixed(2)}</p>`);
 };
 
 
@@ -352,36 +584,184 @@ const PrintDueDate = dueDateData => {
     ApmoketiIki.appendChild(span);
 };
 
+// -----------------------------------------------------------------------------------------------
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+///////////////// =============== ČIA PRASIDEDA CRUD LOGIKA =============== /////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 // -----------------------------------------------------------------------------------------------
 
-// fetch('mock.json')
-fetch('https://in3.dev/inv/')
-    .then(res => res.json())
-    .then(data => {
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// ======= CREATE LOGIKA ======= ///////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
 
-        PrintInvoiceNrAndDate(data);
-        PrintBuyerData(data);
-        PrintSellerData(data);
-        PrintRowNumberAndItemName(data);
-        PrintQuantity(data);
-        PrintUnitPrice(data);
-        const CalculatedRows = data.items.map(item => CalculateRowSums(item));
-        PrintCalculatedDiscountColumn(CalculatedRows);
-        PrintSumsWithoutDiscount(CalculatedRows);
-        PrintSumsWithDiscount(CalculatedRows);
-        // CalculateTotalSums(CalculatedRows);
-        PridedamShipping(data);
-        const FinalTotals = CalculateTotalSums(CalculatedRows, data.shippingPrice);
-        PrintFinalTotals(FinalTotals);
-        PrintDueDate(data);
+if (currentPage.includes('create.html') || currentPage.includes('view.html') || currentPage.includes('edit.html')) {
+    console.log('Rendering Invoice Page...');
 
-        console.log(CalculatedRows);
-        console.log(data);
-    });
+    // Check if we have an ID in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    // const invoiceId = urlParams.get('id');
+    const viewId = urlParams.get('id');
+    const editId = urlParams.get('edit');
 
-// -----------------------------------------------------------------------------------------------
+    // if (invoiceId) {
+    //     // VIEW MODE: Load from localStorage
+    //     const data = InvoiceStorage.readLocalStorage(invoiceId);
+    //     if (data) {
+    //         console.log('Loading saved invoice:', data);
+    //         renderInvoiceData(CalculatedRows, data); // We'll wrap your print functions in this
+
+    //         // Hide the save button since it's already saved, 
+    //         // or change it to an "Update" button later
+    //         const saveButton = document.querySelector('#save-invoice');
+    //         if (saveButton) saveButton.style.display = 'none';
+    //     }
+
+    if (viewId || editId) {
+        // Find the data (Using read as the assumed method name)
+        const id = viewId || editId;
+        const data = InvoiceStorage.read(id);
+
+        if (data) {
+            renderInvoiceData(data);
+
+            // Hide the "Update (New from API)" button
+            const apiRefreshBtn = document.querySelector('#api-refresh');
+
+            if (apiRefreshBtn) {
+                apiRefreshBtn.style.display = 'none';
+            };
+
+
+            const saveButton = document.querySelector('#save-invoice');
+
+            if (viewId) {
+                // VIEW MODE: Just hide the button
+                if (saveButton) saveButton.style.display = 'none';
+            } else {
+                // EDIT MODE: Change Save to Update
+                if (saveButton) {
+                    saveButton.innerText = 'Update Invoice';
+                    saveButton.style.display = 'block'; // Ensure it's visible
+                    saveButton.addEventListener('click', _ => {
+                        // Use your Update method from OopCRUD
+                        // Here we pass the editId and the data object
+                        InvoiceStorage.Update(editId, data);
+                        alert('Invoice updated!');
+                        window.location.href = 'list.html';
+                    });
+                }
+            }
+        }
+    } else {
+        // CREATE MODE: Fetch from API
+        fetch('https://in3.dev/inv/')
+            .then(res => res.json())
+            .then(data => {
+                console.log('Data from API:', data);
+                renderInvoiceData(data);
+
+                const saveButton = document.querySelector('#save-invoice');
+
+                if (saveButton) {
+                    saveButton.addEventListener('click', _ => {
+                        InvoiceStorage.Store(data);
+                        alert('Invoice saved successfully!');
+                        window.location.href = 'list.html';
+                    });
+                }
+            });
+    }
+};
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////// ======= VISŲ INVOICE'Ų LIST LOGIKA ======= /////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+if (currentPage.includes('list.html')) {
+    const listBin = document.querySelector('#invoice-list-bin');
+
+    if (InvoiceStorage.list.length === 0) {
+        listBin.innerHTML = '<p>No invoices saved yet.</p>';
+    } else {
+        // Create a simple table or list
+        let html = `
+            <table border="1" style="width:100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Date</th>
+                        <th>Amount (with VAT)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        InvoiceStorage.list.forEach(inv => {
+            // We need the total sum for the list. 
+            // We can reuse your logic!
+            const rows = inv.items.map(item => CalculateRowSums(item));
+            const totals = CalculateTotalSums(rows, inv.shippingPrice);
+
+            html += `
+                <tr>
+                    <td>${inv.number}</td>
+                    <td>${inv.date}</td>
+                    <td>${totals.TotalSumWithVAT.toFixed(2)} EUR</td>
+                    <td>
+                        <button class="view-btn" data-id="${inv.id}">View</button>
+                        <button class="edit-btn" data-id="${inv.id}">Edit</button>
+                        <button class="delete-btn" data-id="${inv.id}" style="color:red">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        html += `</tbody></table>`;
+        listBin.innerHTML = html;
+
+        // Add event listeners for Edit buttons
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                const id = e.target.dataset.id;
+                window.location.href = `edit.html?edit=${id}`; // Note the ?edit=
+            });
+        });
+
+        // Add event listeners for View buttons
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                const id = e.target.dataset.id;
+                window.location.href = `view.html?id=${id}`;
+            });
+        });
+
+        // Add event listeners for Delete buttons
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                if (confirm('Are you sure you want to delete this invoice?')) {
+                    const id = e.target.dataset.id;
+                    InvoiceStorage.Destroy(id);
+                    window.location.reload(); // Refresh the list
+                }
+            });
+        });
+    }
+}
+
+// If user lands on index.html or the root folder, send them to the list
+if (currentPage.endsWith('/') || currentPage.includes('index.html')) {
+    window.location.href = 'list.html';
+}
+
+
 
 // -----------------------------------------------------------------------------------------------
 // CLASSIFIED
@@ -410,7 +790,7 @@ const SecretWeapon = e => {
         bodis.appendChild(sekcija);
 
         const BebroIMG = document.createElement('img');
-        BebroIMG.src ='images/bebras.png';
+        BebroIMG.src = '../images/bebras.png';
         BebroIMG.alt = 'Bebras';
         BebroIMG.classList.add('bebras-img');
         sekcija.appendChild(BebroIMG);
@@ -431,13 +811,103 @@ const SecretWeapon = e => {
         sekcija.appendChild(AtstatomKnopke);
 
         AtstatomKnopke.addEventListener('click', _ => {
-            window.location.href = 'http://localhost:5500/homework/invoice/index.html';
+            window.location.href = window.location.href = '';
         });
     })
 };
 
-DangerButton.addEventListener('click', SecretWeapon);
+if (currentPage.includes('create.html') || currentPage.includes('view.html')) {
+    DangerButton.addEventListener('click', SecretWeapon);
+};
 
 
 
+// -----------------------------------------------------------------------------------------------
 
+// fetch('mock.json')
+// fetch('https://in3.dev/inv/')
+//     .then(res => res.json())
+//     .then(data => {
+
+//         PrintInvoiceNrAndDate(data);
+//         PrintBuyerData(data);
+//         PrintSellerData(data);
+//         PrintRowNumberAndItemName(data);
+//         PrintQuantity(data);
+//         PrintUnitPrice(data);
+//         const CalculatedRows = data.items.map(item => CalculateRowSums(item));
+//         PrintCalculatedDiscountColumn(CalculatedRows);
+//         PrintSumsWithoutDiscount(CalculatedRows);
+//         PrintSumsWithDiscount(CalculatedRows);
+//         // CalculateTotalSums(CalculatedRows);
+//         PridedamShipping(data);
+//         const FinalTotals = CalculateTotalSums(CalculatedRows, data.shippingPrice);
+//         PrintFinalTotals(FinalTotals);
+//         PrintDueDate(data);
+
+//         console.log(CalculatedRows);
+//         console.log(data);
+//     });
+
+// -----------------------------------------------------------------------------------------------
+
+
+
+const RefreshUI = (data) => {
+    // 1. Clear the old numbers from the screen so they don't stack
+    Nuolaida.innerHTML = '<h4>Nuolaida</h4>';
+    SumaBeNuolaidos.innerHTML = '<h4>Suma be nuolaidos</h4>';
+    SumaSuNuolaida.innerHTML = '<h4>Suma su nuolaida</h4>';
+
+    // Clear the spans inside the final total paragraphs
+    GalutineSumaBePVM.querySelector('span')?.remove();
+    PVMsuma.querySelector('span')?.remove();
+    GalutineSumaSuPVM.querySelector('span')?.remove();
+
+    // Clear shipping rows specifically so they don't duplicate
+    document.querySelectorAll('.shipping-sum-be, .shipping-sum-su').forEach(el => el.remove());
+
+    // 2. Re-calculate based on the new quantities
+    const CalculatedRows = data.items.map(item => CalculateRowSums(item));
+
+    // 3. Re-print the updated numbers
+    PrintCalculatedDiscountColumn(CalculatedRows, data);
+    PrintSumsWithoutDiscount(CalculatedRows);
+    PrintSumsWithDiscount(CalculatedRows);
+
+    // 4. Re-print the Shipping Sums at the very bottom of the columns
+    SumaBeNuolaidos.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">${data.shippingPrice.toFixed(2)}</p>`);
+    SumaSuNuolaida.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">${data.shippingPrice.toFixed(2)}</p>`);
+
+    // 5. Update Final Totals
+    const FinalTotals = CalculateTotalSums(CalculatedRows, data.shippingPrice);
+    PrintFinalTotals(FinalTotals);
+
+    // Update shipping sum displays if they exist as tags
+    const shipBe = document.querySelector('.shipping-sum-be');
+    if (shipBe) shipBe.innerText = data.shippingPrice.toFixed(2);
+};
+
+
+// -----------------------------------------------------------------------------------------------
+
+// Helper function to keep code clean
+function renderInvoiceData(data) {
+    PrintInvoiceNrAndDate(data);
+    PrintBuyerData(data);
+    PrintSellerData(data);
+    PrintRowNumberAndItemName(data);
+    PrintQuantity(data);
+    PrintUnitPrice(data);
+    const CalculatedRows = data.items.map(item => CalculateRowSums(item));
+    PrintCalculatedDiscountColumn(CalculatedRows, data);
+    PrintSumsWithoutDiscount(CalculatedRows);
+    PrintSumsWithDiscount(CalculatedRows);
+    // CalculateTotalSums(CalculatedRows);
+    PridedamShipping(data);
+    const FinalTotals = CalculateTotalSums(CalculatedRows, data.shippingPrice);
+    PrintFinalTotals(FinalTotals);
+    PrintDueDate(data);
+
+    console.log(CalculatedRows);
+}

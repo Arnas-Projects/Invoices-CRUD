@@ -1,11 +1,192 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/uuid/dist/native.js"
+/*!******************************************!*\
+  !*** ./node_modules/uuid/dist/native.js ***!
+  \******************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({ randomUUID });
+
+
+/***/ },
+
+/***/ "./node_modules/uuid/dist/regex.js"
+/*!*****************************************!*\
+  !*** ./node_modules/uuid/dist/regex.js ***!
+  \*****************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/i);
+
+
+/***/ },
+
+/***/ "./node_modules/uuid/dist/rng.js"
+/*!***************************************!*\
+  !*** ./node_modules/uuid/dist/rng.js ***!
+  \***************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ rng)
+/* harmony export */ });
+let getRandomValues;
+const rnds8 = new Uint8Array(16);
+function rng() {
+    if (!getRandomValues) {
+        if (typeof crypto === 'undefined' || !crypto.getRandomValues) {
+            throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+        }
+        getRandomValues = crypto.getRandomValues.bind(crypto);
+    }
+    return getRandomValues(rnds8);
+}
+
+
+/***/ },
+
+/***/ "./node_modules/uuid/dist/stringify.js"
+/*!*********************************************!*\
+  !*** ./node_modules/uuid/dist/stringify.js ***!
+  \*********************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   unsafeStringify: () => (/* binding */ unsafeStringify)
+/* harmony export */ });
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validate.js */ "./node_modules/uuid/dist/validate.js");
+
+const byteToHex = [];
+for (let i = 0; i < 256; ++i) {
+    byteToHex.push((i + 0x100).toString(16).slice(1));
+}
+function unsafeStringify(arr, offset = 0) {
+    return (byteToHex[arr[offset + 0]] +
+        byteToHex[arr[offset + 1]] +
+        byteToHex[arr[offset + 2]] +
+        byteToHex[arr[offset + 3]] +
+        '-' +
+        byteToHex[arr[offset + 4]] +
+        byteToHex[arr[offset + 5]] +
+        '-' +
+        byteToHex[arr[offset + 6]] +
+        byteToHex[arr[offset + 7]] +
+        '-' +
+        byteToHex[arr[offset + 8]] +
+        byteToHex[arr[offset + 9]] +
+        '-' +
+        byteToHex[arr[offset + 10]] +
+        byteToHex[arr[offset + 11]] +
+        byteToHex[arr[offset + 12]] +
+        byteToHex[arr[offset + 13]] +
+        byteToHex[arr[offset + 14]] +
+        byteToHex[arr[offset + 15]]).toLowerCase();
+}
+function stringify(arr, offset = 0) {
+    const uuid = unsafeStringify(arr, offset);
+    if (!(0,_validate_js__WEBPACK_IMPORTED_MODULE_0__["default"])(uuid)) {
+        throw TypeError('Stringified UUID is invalid');
+    }
+    return uuid;
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (stringify);
+
+
+/***/ },
+
+/***/ "./node_modules/uuid/dist/v4.js"
+/*!**************************************!*\
+  !*** ./node_modules/uuid/dist/v4.js ***!
+  \**************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _native_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./native.js */ "./node_modules/uuid/dist/native.js");
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rng.js */ "./node_modules/uuid/dist/rng.js");
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stringify.js */ "./node_modules/uuid/dist/stringify.js");
+
+
+
+function _v4(options, buf, offset) {
+    options = options || {};
+    const rnds = options.random ?? options.rng?.() ?? (0,_rng_js__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    if (rnds.length < 16) {
+        throw new Error('Random bytes length must be >= 16');
+    }
+    rnds[6] = (rnds[6] & 0x0f) | 0x40;
+    rnds[8] = (rnds[8] & 0x3f) | 0x80;
+    if (buf) {
+        offset = offset || 0;
+        if (offset < 0 || offset + 16 > buf.length) {
+            throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+        }
+        for (let i = 0; i < 16; ++i) {
+            buf[offset + i] = rnds[i];
+        }
+        return buf;
+    }
+    return (0,_stringify_js__WEBPACK_IMPORTED_MODULE_2__.unsafeStringify)(rnds);
+}
+function v4(options, buf, offset) {
+    if (_native_js__WEBPACK_IMPORTED_MODULE_0__["default"].randomUUID && !buf && !options) {
+        return _native_js__WEBPACK_IMPORTED_MODULE_0__["default"].randomUUID();
+    }
+    return _v4(options, buf, offset);
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (v4);
+
+
+/***/ },
+
+/***/ "./node_modules/uuid/dist/validate.js"
+/*!********************************************!*\
+  !*** ./node_modules/uuid/dist/validate.js ***!
+  \********************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _regex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./regex.js */ "./node_modules/uuid/dist/regex.js");
+
+function validate(uuid) {
+    return typeof uuid === 'string' && _regex_js__WEBPACK_IMPORTED_MODULE_0__["default"].test(uuid);
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validate);
+
+
+/***/ },
 
 /***/ "./src/app.js"
 /*!********************!*\
   !*** ./src/app.js ***!
   \********************/
-() {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _crud_code_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./crud-code.js */ "./src/crud-code.js");
+
+var InvoiceStorage = new _crud_code_js__WEBPACK_IMPORTED_MODULE_0__["default"]('my_invoices');
+var currentPage = window.location.pathname;
 
 // -----------------------------------------------------------------------------------------------
 // Sąskaitos nr ir data
@@ -29,30 +210,71 @@ var PrintInvoiceNrAndDate = function PrintInvoiceNrAndDate(NrAndDate) {
 
 var Pirkejas = document.querySelectorAll('section.buyer-seller > div.buyer > p');
 var PrintBuyerData = function PrintBuyerData(BuyerData) {
-  var CompanyNameTag = document.createElement('span');
-  CompanyNameTag.innerText = BuyerData.company.buyer.name;
-  CompanyNameTag.classList.add('buyer-span');
-  Pirkejas[0].appendChild(CompanyNameTag);
-  var CompanyAddress = document.createElement('span');
-  CompanyAddress.innerText = BuyerData.company.buyer.address;
-  CompanyAddress.classList.add('buyer-span');
-  Pirkejas[1].appendChild(CompanyAddress);
-  var CompanyCode = document.createElement('span');
-  CompanyCode.innerText = BuyerData.company.buyer.code;
-  CompanyCode.classList.add('buyer-span');
-  Pirkejas[2].appendChild(CompanyCode);
-  var CompanyVATnumber = document.createElement('span');
-  CompanyVATnumber.innerText = BuyerData.company.buyer.vat;
-  CompanyVATnumber.classList.add('buyer-span');
-  Pirkejas[3].appendChild(CompanyVATnumber);
-  var CompanyMobileNumber = document.createElement('span');
-  CompanyMobileNumber.innerText = BuyerData.company.buyer.phone;
-  CompanyMobileNumber.classList.add('buyer-span');
-  Pirkejas[4].appendChild(CompanyMobileNumber);
-  var CompanyEmail = document.createElement('span');
-  CompanyEmail.innerText = BuyerData.company.buyer.email;
-  CompanyEmail.classList.add('buyer-span');
-  Pirkejas[5].appendChild(CompanyEmail);
+  // Determine if we are in a mode that allows editing
+  var isEditable = currentPage.includes('edit.html') && !window.location.search.includes('id=');
+  var fields = [{
+    value: BuyerData.company.buyer.name
+  }, {
+    value: BuyerData.company.buyer.address
+  }, {
+    value: BuyerData.company.buyer.code
+  }, {
+    value: BuyerData.company.buyer.vat
+  }, {
+    value: BuyerData.company.buyer.phone
+  }, {
+    value: BuyerData.company.buyer.email
+  }];
+  fields.forEach(function (field, index) {
+    var tag;
+    if (isEditable) {
+      tag = document.createElement('input');
+      tag.value = field.value;
+      tag.classList.add('buyer-input'); // We can style this in CSS
+
+      // Step A.2: Sync changes back to the data object
+      tag.addEventListener('input', function (e) {
+        var keys = ['name', 'address', 'code', 'vat', 'phone', 'email'];
+        BuyerData.company.buyer[keys[index]] = e.target.value;
+      });
+    } else {
+      tag = document.createElement('span');
+      tag.innerText = field.value;
+      tag.classList.add('buyer-span');
+    }
+    // Clear anything existing (like labels) before appending
+    Pirkejas[index].appendChild(tag);
+  });
+
+  // const CompanyNameTag = document.createElement('span');
+  // CompanyNameTag.innerText = BuyerData.company.buyer.name;
+  // CompanyNameTag.classList.add('buyer-span');
+  // Pirkejas[0].appendChild(CompanyNameTag);
+
+  // const CompanyAddress = document.createElement('span');
+  // CompanyAddress.innerText = BuyerData.company.buyer.address;
+  // CompanyAddress.classList.add('buyer-span');
+  // Pirkejas[1].appendChild(CompanyAddress);
+
+  // const CompanyCode = document.createElement('span');
+  // CompanyCode.innerText = BuyerData.company.buyer.code;
+  // CompanyCode.classList.add('buyer-span');
+  // Pirkejas[2].appendChild(CompanyCode);
+
+  // const CompanyVATnumber = document.createElement('span');
+  // CompanyVATnumber.innerText = BuyerData.company.buyer.vat;
+  // CompanyVATnumber.classList.add('buyer-span');
+  // Pirkejas[3].appendChild(CompanyVATnumber);
+
+  // const CompanyMobileNumber = document.createElement('span');
+  // CompanyMobileNumber.innerText = BuyerData.company.buyer.phone;
+  // CompanyMobileNumber.classList.add('buyer-span');
+  // Pirkejas[4].appendChild(CompanyMobileNumber);
+
+  // const CompanyEmail = document.createElement('span');
+  // CompanyEmail.innerText = BuyerData.company.buyer.email;
+  // CompanyEmail.classList.add('buyer-span');
+  // Pirkejas[5].appendChild(CompanyEmail);
 };
 
 // -----------------------------------------------------------------------------------------------
@@ -60,30 +282,71 @@ var PrintBuyerData = function PrintBuyerData(BuyerData) {
 
 var Pardavejas = document.querySelectorAll('section.buyer-seller > div.seller > p');
 var PrintSellerData = function PrintSellerData(SellerData) {
-  var CompanyNameTag = document.createElement('span');
-  CompanyNameTag.innerText = SellerData.company.seller.name;
-  CompanyNameTag.classList.add('seller-span');
-  Pardavejas[0].appendChild(CompanyNameTag);
-  var CompanyAddress = document.createElement('span');
-  CompanyAddress.innerText = SellerData.company.seller.address;
-  CompanyAddress.classList.add('seller-span');
-  Pardavejas[1].appendChild(CompanyAddress);
-  var CompanyCode = document.createElement('span');
-  CompanyCode.innerText = SellerData.company.seller.code;
-  CompanyCode.classList.add('seller-span');
-  Pardavejas[2].appendChild(CompanyCode);
-  var CompanyVATnumber = document.createElement('span');
-  CompanyVATnumber.innerText = SellerData.company.seller.vat;
-  CompanyVATnumber.classList.add('seller-span');
-  Pardavejas[3].appendChild(CompanyVATnumber);
-  var CompanyMobileNumber = document.createElement('span');
-  CompanyMobileNumber.innerText = SellerData.company.seller.phone;
-  CompanyMobileNumber.classList.add('seller-span');
-  Pardavejas[4].appendChild(CompanyMobileNumber);
-  var CompanyEmail = document.createElement('span');
-  CompanyEmail.innerText = SellerData.company.seller.email;
-  CompanyEmail.classList.add('seller-span');
-  Pardavejas[5].appendChild(CompanyEmail);
+  // Determine if we are in a mode that allows editing
+  var isEditable = currentPage.includes('edit.html') && !window.location.search.includes('id=');
+  var fields = [{
+    value: SellerData.company.seller.name
+  }, {
+    value: SellerData.company.seller.address
+  }, {
+    value: SellerData.company.seller.code
+  }, {
+    value: SellerData.company.seller.vat
+  }, {
+    value: SellerData.company.seller.phone
+  }, {
+    value: SellerData.company.seller.email
+  }];
+  fields.forEach(function (field, index) {
+    var tag;
+    if (isEditable) {
+      tag = document.createElement('input');
+      tag.value = field.value;
+      tag.classList.add('buyer-input'); // We can style this in CSS
+
+      // Step A.2: Sync changes back to the data object
+      tag.addEventListener('input', function (e) {
+        var keys = ['name', 'address', 'code', 'vat', 'phone', 'email'];
+        SellerData.company.seller[keys[index]] = e.target.value;
+      });
+    } else {
+      tag = document.createElement('span');
+      tag.innerText = field.value;
+      tag.classList.add('seller-span');
+    }
+    // Clear anything existing (like labels) before appending
+    Pardavejas[index].appendChild(tag);
+  });
+
+  // const CompanyNameTag = document.createElement('span');
+  // CompanyNameTag.innerText = SellerData.company.seller.name;
+  // CompanyNameTag.classList.add('seller-span');
+  // Pardavejas[0].appendChild(CompanyNameTag);
+
+  // const CompanyAddress = document.createElement('span');
+  // CompanyAddress.innerText = SellerData.company.seller.address;
+  // CompanyAddress.classList.add('seller-span');
+  // Pardavejas[1].appendChild(CompanyAddress);
+
+  // const CompanyCode = document.createElement('span');
+  // CompanyCode.innerText = SellerData.company.seller.code;
+  // CompanyCode.classList.add('seller-span');
+  // Pardavejas[2].appendChild(CompanyCode);
+
+  // const CompanyVATnumber = document.createElement('span');
+  // CompanyVATnumber.innerText = SellerData.company.seller.vat;
+  // CompanyVATnumber.classList.add('seller-span');
+  // Pardavejas[3].appendChild(CompanyVATnumber);
+
+  // const CompanyMobileNumber = document.createElement('span');
+  // CompanyMobileNumber.innerText = SellerData.company.seller.phone;
+  // CompanyMobileNumber.classList.add('seller-span');
+  // Pardavejas[4].appendChild(CompanyMobileNumber);
+
+  // const CompanyEmail = document.createElement('span');
+  // CompanyEmail.innerText = SellerData.company.seller.email;
+  // CompanyEmail.classList.add('seller-span');
+  // Pardavejas[5].appendChild(CompanyEmail);
 };
 
 // -----------------------------------------------------------------------------------------------
@@ -92,15 +355,32 @@ var PrintSellerData = function PrintSellerData(SellerData) {
 var EilesNr = document.querySelector('section.products-list > div.eilesNr');
 var PrekesPavadinimas = document.querySelector('section.products-list > div.preke');
 var PrintRowNumberAndItemName = function PrintRowNumberAndItemName(allItems) {
+  var isEditable = currentPage.includes('edit.html');
   allItems.items.forEach(function (oneItem, index) {
     var IndexTag = document.createElement('p');
     IndexTag.innerText = index + 1 + '.';
-    IndexTag.classList.add('eiles-numeris');
+    IndexTag.classList.add('prekes-listas');
     EilesNr.appendChild(IndexTag);
-    var ItemNameTag = document.createElement('p');
-    ItemNameTag.innerText = oneItem.description;
-    ItemNameTag.classList.add('prekiu-listas');
-    PrekesPavadinimas.appendChild(ItemNameTag);
+
+    // --- EDITABLE NAME ---
+    var tag = isEditable ? document.createElement('input') : document.createElement('p');
+    if (isEditable) {
+      tag.value = oneItem.description;
+      tag.classList.add('edit-name'); // You can style this in SCSS later
+      tag.addEventListener('input', function (e) {
+        oneItem.description = e.target.value;
+        // We don't need RefreshUI here because names don't change the math
+      });
+    } else {
+      tag.innerText = oneItem.description;
+    }
+    tag.classList.add('eiles-numeris');
+    PrekesPavadinimas.appendChild(tag);
+
+    // const ItemNameTag = document.createElement('p');
+    // ItemNameTag.innerText = oneItem.description;
+    // ItemNameTag.classList.add('prekiu-listas');
+    // PrekesPavadinimas.appendChild(ItemNameTag);
   });
 };
 
@@ -109,11 +389,32 @@ var PrintRowNumberAndItemName = function PrintRowNumberAndItemName(allItems) {
 
 var Kiekis = document.querySelector('section.products-list > div.kiekis');
 var PrintQuantity = function PrintQuantity(allItems) {
+  var isEditable = currentPage.includes('edit.html'); // && !window.location.search.includes('id=');
+
   allItems.items.forEach(function (oneItem) {
-    var QuantityTag = document.createElement('p');
-    QuantityTag.innerText = oneItem.quantity;
-    QuantityTag.classList.add('prekiu-listas');
-    Kiekis.appendChild(QuantityTag);
+    var tag = isEditable ? document.createElement('input') : document.createElement('p');
+    if (isEditable) {
+      tag.type = 'number';
+      tag.value = oneItem.quantity;
+      tag.classList.add('edit-qty');
+
+      // --- THE NEW PART ---
+      // Whenever the user types, update the object and refresh the screen
+      tag.addEventListener('input', function (e) {
+        oneItem.quantity = Number(e.target.value);
+        RefreshUI(allItems);
+      });
+      // --------------------
+    } else {
+      tag.innerText = oneItem.quantity;
+    }
+    tag.classList.add('prekiu-listas');
+    Kiekis.appendChild(tag);
+
+    // const QuantityTag = document.createElement('p');
+    // QuantityTag.innerText = oneItem.quantity;
+    // QuantityTag.classList.add('prekiu-listas');
+    // Kiekis.appendChild(QuantityTag);
   });
 };
 
@@ -122,12 +423,29 @@ var PrintQuantity = function PrintQuantity(allItems) {
 
 var VNTkaina = document.querySelector('section.products-list > div.vnt-kaina');
 var PrintUnitPrice = function PrintUnitPrice(allItems) {
+  var isEditable = currentPage.includes('edit.html');
   allItems.items.forEach(function (oneItem) {
-    var UnitPriceTag = document.createElement('p');
-    var PriceWithDecimal = oneItem.price.toFixed(2);
-    UnitPriceTag.innerText = PriceWithDecimal;
-    UnitPriceTag.classList.add('prekiu-listas');
-    VNTkaina.appendChild(UnitPriceTag);
+    var tag = isEditable ? document.createElement('input') : document.createElement('p');
+    if (isEditable) {
+      tag.type = 'number';
+      tag.step = '0.01'; // Allows decimals like 10.99
+      tag.value = oneItem.price;
+      tag.classList.add('edit-price');
+      tag.addEventListener('input', function (e) {
+        oneItem.price = Number(e.target.value);
+        RefreshUI(allItems); // Math changes, so we refresh!
+      });
+    } else {
+      tag.innerText = Number(oneItem.price.toFixed(2));
+    }
+    tag.classList.add('prekiu-listas');
+    VNTkaina.appendChild(tag);
+
+    // const UnitPriceTag = document.createElement('p');
+    // const PriceWithDecimal = oneItem.price.toFixed(2);
+    // UnitPriceTag.innerText = PriceWithDecimal;
+    // UnitPriceTag.classList.add('prekiu-listas');
+    // VNTkaina.appendChild(UnitPriceTag);
   });
 };
 
@@ -169,12 +487,69 @@ var CalculateRowSums = function CalculateRowSums(item) {
 // iš naujo .map masyvo vardu 'CalculatedRows'
 
 var Nuolaida = document.querySelector('section.products-list > div.nuolaida');
-var PrintCalculatedDiscountColumn = function PrintCalculatedDiscountColumn(CalculatedRows) {
-  CalculatedRows.forEach(function (oneSingleItem) {
-    var DiscountTag = document.createElement('p');
-    DiscountTag.innerText = oneSingleItem.SingleUnitDiscountText;
-    DiscountTag.classList.add('prekiu-listas');
-    Nuolaida.appendChild(DiscountTag);
+var PrintCalculatedDiscountColumn = function PrintCalculatedDiscountColumn(CalculatedRows, allItems) {
+  var isEditable = currentPage.includes('edit.html');
+  CalculatedRows.forEach(function (calculatedRow, index) {
+    var container = document.createElement('div');
+    container.classList.add('discount-edit-container');
+
+    // The original item from the main data array
+    var originalItem = allItems.items[index];
+    if (isEditable) {
+      // 1. Create Value Input
+      var valInput = document.createElement('input');
+      valInput.type = 'number';
+      valInput.value = originalItem.discount ? originalItem.discount.value : 0;
+      valInput.classList.add('edit-discount-val');
+
+      // 2. Create Type Selector
+      var typeSelect = document.createElement('select');
+      typeSelect.classList.add('edit-discount-type');
+      var options = [{
+        val: 'none',
+        text: 'Nėra'
+      }, {
+        val: 'percentage',
+        text: '%'
+      }, {
+        val: 'fixed',
+        text: 'Eur'
+      }];
+      options.forEach(function (opt) {
+        var o = document.createElement('option');
+        o.value = opt.val;
+        o.innerText = opt.text;
+        if (originalItem.discount && originalItem.discount.type === opt.val) o.selected = true;
+        if (!originalItem.discount && opt.val === 'none') o.selected = true;
+        typeSelect.appendChild(o);
+      });
+
+      // Event Listeners for both
+      var updateDiscount = function updateDiscount() {
+        var newVal = Number(valInput.value);
+        var newType = typeSelect.value;
+        if (newType === 'none') {
+          originalItem.discount = null;
+        } else {
+          originalItem.discount = {
+            type: newType,
+            value: newVal
+          };
+        }
+        RefreshUI(allItems);
+      };
+      valInput.addEventListener('input', updateDiscount);
+      typeSelect.addEventListener('change', updateDiscount);
+      container.appendChild(valInput);
+      container.appendChild(typeSelect);
+      Nuolaida.appendChild(container);
+    } else {
+      // View mode (same as before)
+      var DiscountTag = document.createElement('p');
+      DiscountTag.innerText = calculatedRow.SingleUnitDiscountText;
+      DiscountTag.classList.add('prekiu-listas');
+      Nuolaida.appendChild(DiscountTag);
+    }
   });
 };
 
@@ -230,15 +605,54 @@ var CalculateTotalSums = function CalculateTotalSums(CalculatedRows) {
 // Shippingas
 
 var PridedamShipping = function PridedamShipping(allItems) {
-  var shippingas = allItems.shippingPrice;
+  // const shippingas = allItems.shippingPrice;
+  var isEditable = currentPage.includes('edit.html');
   var shippingRowNumber = allItems.items.length + 1;
-  EilesNr.insertAdjacentHTML('beforeend', "<p>".concat(shippingRowNumber, ".</p>"));
-  PrekesPavadinimas.insertAdjacentHTML('beforeend', "<p>Transportavimo i\u0161laidos</p>");
-  Kiekis.insertAdjacentHTML('beforeend', "<p>1</p>");
-  VNTkaina.insertAdjacentHTML('beforeend', "<p>".concat(shippingas.toFixed(2), "</p>"));
-  Nuolaida.insertAdjacentHTML('beforeend', "<p>-</p>");
-  SumaBeNuolaidos.insertAdjacentHTML('beforeend', "<p>".concat(shippingas.toFixed(2), "</p>"));
-  SumaSuNuolaida.insertAdjacentHTML('beforeend', "<p>".concat(shippingas.toFixed(2), "</p>"));
+
+  // Row Number
+  EilesNr.insertAdjacentHTML('beforeend', "<p class=\"eiles-numeris\">".concat(shippingRowNumber, ".</p>"));
+
+  // Description
+  PrekesPavadinimas.insertAdjacentHTML('beforeend', "<p style='font-weight: 500;' class=\"prekiu-listas\">Transportavimo i\u0161laidos</p>");
+
+  // Quantity (Fixed at 1)
+  Kiekis.insertAdjacentHTML('beforeend', "<p class=\"prekiu-listas\">1</p>");
+
+  // VNTkaina.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">${shippingas.toFixed(2)}</p>`);
+  // Nuolaida.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">-</p>`);
+
+  // --- Price Column ---
+  if (isEditable) {
+    var shipInput = document.createElement('input');
+    shipInput.type = 'number';
+    shipInput.step = '0.01';
+    shipInput.value = allItems.shippingPrice;
+    shipInput.classList.add('edit-price'); // Use your existing CSS class
+
+    shipInput.addEventListener('input', function (e) {
+      allItems.shippingPrice = Number(e.target.value);
+      RefreshUI(allItems); // Recalculate totals immediately
+    });
+    VNTkaina.appendChild(shipInput);
+  } else {
+    VNTkaina.insertAdjacentHTML('beforeend', "<p class=\"prekiu-listas\">".concat(allItems.shippingPrice.toFixed(2), "</p>"));
+  }
+
+  // Static columns
+  Nuolaida.insertAdjacentHTML('beforeend', "<p class=\"prekiu-listas\">-</p>");
+
+  // Sum Columns (These get updated by RefreshUI, but we need initial placeholders)
+  var shipSumBe = document.createElement('p');
+  shipSumBe.classList.add('prekiu-listas', 'shipping-sum-be'); // Added specific class for clearing
+  shipSumBe.innerText = allItems.shippingPrice.toFixed(2);
+  SumaBeNuolaidos.appendChild(shipSumBe);
+  var shipSumSu = document.createElement('p');
+  shipSumSu.classList.add('prekiu-listas', 'shipping-sum-su'); // Added specific class for clearing
+  shipSumSu.innerText = allItems.shippingPrice.toFixed(2);
+  SumaSuNuolaida.appendChild(shipSumSu);
+
+  // SumaBeNuolaidos.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">${shippingas.toFixed(2)}</p>`);
+  // SumaSuNuolaida.insertAdjacentHTML('beforeend', `<p class="prekiu-listas">${shippingas.toFixed(2)}</p>`);
 };
 
 // -----------------------------------------------------------------------------------------------
@@ -273,32 +687,148 @@ var PrintDueDate = function PrintDueDate(dueDateData) {
 
 // -----------------------------------------------------------------------------------------------
 
-// fetch('mock.json')
-fetch('https://in3.dev/inv/').then(function (res) {
-  return res.json();
-}).then(function (data) {
-  PrintInvoiceNrAndDate(data);
-  PrintBuyerData(data);
-  PrintSellerData(data);
-  PrintRowNumberAndItemName(data);
-  PrintQuantity(data);
-  PrintUnitPrice(data);
-  var CalculatedRows = data.items.map(function (item) {
-    return CalculateRowSums(item);
-  });
-  PrintCalculatedDiscountColumn(CalculatedRows);
-  PrintSumsWithoutDiscount(CalculatedRows);
-  PrintSumsWithDiscount(CalculatedRows);
-  // CalculateTotalSums(CalculatedRows);
-  PridedamShipping(data);
-  var FinalTotals = CalculateTotalSums(CalculatedRows, data.shippingPrice);
-  PrintFinalTotals(FinalTotals);
-  PrintDueDate(data);
-  console.log(CalculatedRows);
-  console.log(data);
-});
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+///////////////// =============== ČIA PRASIDEDA CRUD LOGIKA =============== /////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 // -----------------------------------------------------------------------------------------------
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// ======= CREATE LOGIKA ======= ///////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+if (currentPage.includes('create.html') || currentPage.includes('view.html') || currentPage.includes('edit.html')) {
+  console.log('Rendering Invoice Page...');
+
+  // Check if we have an ID in the URL
+  var urlParams = new URLSearchParams(window.location.search);
+  // const invoiceId = urlParams.get('id');
+  var viewId = urlParams.get('id');
+  var editId = urlParams.get('edit');
+
+  // if (invoiceId) {
+  //     // VIEW MODE: Load from localStorage
+  //     const data = InvoiceStorage.readLocalStorage(invoiceId);
+  //     if (data) {
+  //         console.log('Loading saved invoice:', data);
+  //         renderInvoiceData(CalculatedRows, data); // We'll wrap your print functions in this
+
+  //         // Hide the save button since it's already saved, 
+  //         // or change it to an "Update" button later
+  //         const saveButton = document.querySelector('#save-invoice');
+  //         if (saveButton) saveButton.style.display = 'none';
+  //     }
+
+  if (viewId || editId) {
+    // Find the data (Using read as the assumed method name)
+    var id = viewId || editId;
+    var data = InvoiceStorage.read(id);
+    if (data) {
+      renderInvoiceData(data);
+
+      // Hide the "Update (New from API)" button
+      var apiRefreshBtn = document.querySelector('#api-refresh');
+      if (apiRefreshBtn) {
+        apiRefreshBtn.style.display = 'none';
+      }
+      ;
+      var saveButton = document.querySelector('#save-invoice');
+      if (viewId) {
+        // VIEW MODE: Just hide the button
+        if (saveButton) saveButton.style.display = 'none';
+      } else {
+        // EDIT MODE: Change Save to Update
+        if (saveButton) {
+          saveButton.innerText = 'Update Invoice';
+          saveButton.style.display = 'block'; // Ensure it's visible
+          saveButton.addEventListener('click', function (_) {
+            // Use your Update method from OopCRUD
+            // Here we pass the editId and the data object
+            InvoiceStorage.Update(editId, data);
+            alert('Invoice updated!');
+            window.location.href = 'list.html';
+          });
+        }
+      }
+    }
+  } else {
+    // CREATE MODE: Fetch from API
+    fetch('https://in3.dev/inv/').then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      console.log('Data from API:', data);
+      renderInvoiceData(data);
+      var saveButton = document.querySelector('#save-invoice');
+      if (saveButton) {
+        saveButton.addEventListener('click', function (_) {
+          InvoiceStorage.Store(data);
+          alert('Invoice saved successfully!');
+          window.location.href = 'list.html';
+        });
+      }
+    });
+  }
+}
+;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////// ======= VISŲ INVOICE'Ų LIST LOGIKA ======= /////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+if (currentPage.includes('list.html')) {
+  var listBin = document.querySelector('#invoice-list-bin');
+  if (InvoiceStorage.list.length === 0) {
+    listBin.innerHTML = '<p>No invoices saved yet.</p>';
+  } else {
+    // Create a simple table or list
+    var html = "\n            <table border=\"1\" style=\"width:100%; border-collapse: collapse; margin-top: 20px;\">\n                <thead>\n                    <tr>\n                        <th>Number</th>\n                        <th>Date</th>\n                        <th>Amount (with VAT)</th>\n                        <th>Actions</th>\n                    </tr>\n                </thead>\n                <tbody>\n        ";
+    InvoiceStorage.list.forEach(function (inv) {
+      // We need the total sum for the list. 
+      // We can reuse your logic!
+      var rows = inv.items.map(function (item) {
+        return CalculateRowSums(item);
+      });
+      var totals = CalculateTotalSums(rows, inv.shippingPrice);
+      html += "\n                <tr>\n                    <td>".concat(inv.number, "</td>\n                    <td>").concat(inv.date, "</td>\n                    <td>").concat(totals.TotalSumWithVAT.toFixed(2), " EUR</td>\n                    <td>\n                        <button class=\"view-btn\" data-id=\"").concat(inv.id, "\">View</button>\n                        <button class=\"edit-btn\" data-id=\"").concat(inv.id, "\">Edit</button>\n                        <button class=\"delete-btn\" data-id=\"").concat(inv.id, "\" style=\"color:red\">Delete</button>\n                    </td>\n                </tr>\n            ");
+    });
+    html += "</tbody></table>";
+    listBin.innerHTML = html;
+
+    // Add event listeners for Edit buttons
+    document.querySelectorAll('.edit-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        var id = e.target.dataset.id;
+        window.location.href = "edit.html?edit=".concat(id); // Note the ?edit=
+      });
+    });
+
+    // Add event listeners for View buttons
+    document.querySelectorAll('.view-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        var id = e.target.dataset.id;
+        window.location.href = "view.html?id=".concat(id);
+      });
+    });
+
+    // Add event listeners for Delete buttons
+    document.querySelectorAll('.delete-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        if (confirm('Are you sure you want to delete this invoice?')) {
+          var _id = e.target.dataset.id;
+          InvoiceStorage.Destroy(_id);
+          window.location.reload(); // Refresh the list
+        }
+      });
+    });
+  }
+}
+
+// If user lands on index.html or the root folder, send them to the list
+if (currentPage.endsWith('/') || currentPage.includes('index.html')) {
+  window.location.href = 'list.html';
+}
 
 // -----------------------------------------------------------------------------------------------
 // CLASSIFIED
@@ -318,7 +848,7 @@ var SecretWeapon = function SecretWeapon(e) {
     sekcija.classList.add('bebras-section');
     bodis.appendChild(sekcija);
     var BebroIMG = document.createElement('img');
-    BebroIMG.src = 'images/bebras.png';
+    BebroIMG.src = '../images/bebras.png';
     BebroIMG.alt = 'Bebras';
     BebroIMG.classList.add('bebras-img');
     sekcija.appendChild(BebroIMG);
@@ -335,11 +865,185 @@ var SecretWeapon = function SecretWeapon(e) {
     AtstatomKnopke.classList.add('fix');
     sekcija.appendChild(AtstatomKnopke);
     AtstatomKnopke.addEventListener('click', function (_) {
-      window.location.href = 'http://localhost:5500/homework/invoice/index.html';
+      window.location.href = window.location.href = '';
     });
   });
 };
-DangerButton.addEventListener('click', SecretWeapon);
+if (currentPage.includes('create.html') || currentPage.includes('view.html')) {
+  DangerButton.addEventListener('click', SecretWeapon);
+}
+;
+
+// -----------------------------------------------------------------------------------------------
+
+// fetch('mock.json')
+// fetch('https://in3.dev/inv/')
+//     .then(res => res.json())
+//     .then(data => {
+
+//         PrintInvoiceNrAndDate(data);
+//         PrintBuyerData(data);
+//         PrintSellerData(data);
+//         PrintRowNumberAndItemName(data);
+//         PrintQuantity(data);
+//         PrintUnitPrice(data);
+//         const CalculatedRows = data.items.map(item => CalculateRowSums(item));
+//         PrintCalculatedDiscountColumn(CalculatedRows);
+//         PrintSumsWithoutDiscount(CalculatedRows);
+//         PrintSumsWithDiscount(CalculatedRows);
+//         // CalculateTotalSums(CalculatedRows);
+//         PridedamShipping(data);
+//         const FinalTotals = CalculateTotalSums(CalculatedRows, data.shippingPrice);
+//         PrintFinalTotals(FinalTotals);
+//         PrintDueDate(data);
+
+//         console.log(CalculatedRows);
+//         console.log(data);
+//     });
+
+// -----------------------------------------------------------------------------------------------
+
+var RefreshUI = function RefreshUI(data) {
+  var _GalutineSumaBePVM$qu, _PVMsuma$querySelecto, _GalutineSumaSuPVM$qu;
+  // 1. Clear the old numbers from the screen so they don't stack
+  Nuolaida.innerHTML = '<h4>Nuolaida</h4>';
+  SumaBeNuolaidos.innerHTML = '<h4>Suma be nuolaidos</h4>';
+  SumaSuNuolaida.innerHTML = '<h4>Suma su nuolaida</h4>';
+
+  // Clear the spans inside the final total paragraphs
+  (_GalutineSumaBePVM$qu = GalutineSumaBePVM.querySelector('span')) === null || _GalutineSumaBePVM$qu === void 0 || _GalutineSumaBePVM$qu.remove();
+  (_PVMsuma$querySelecto = PVMsuma.querySelector('span')) === null || _PVMsuma$querySelecto === void 0 || _PVMsuma$querySelecto.remove();
+  (_GalutineSumaSuPVM$qu = GalutineSumaSuPVM.querySelector('span')) === null || _GalutineSumaSuPVM$qu === void 0 || _GalutineSumaSuPVM$qu.remove();
+
+  // Clear shipping rows specifically so they don't duplicate
+  document.querySelectorAll('.shipping-sum-be, .shipping-sum-su').forEach(function (el) {
+    return el.remove();
+  });
+
+  // 2. Re-calculate based on the new quantities
+  var CalculatedRows = data.items.map(function (item) {
+    return CalculateRowSums(item);
+  });
+
+  // 3. Re-print the updated numbers
+  PrintCalculatedDiscountColumn(CalculatedRows, data);
+  PrintSumsWithoutDiscount(CalculatedRows);
+  PrintSumsWithDiscount(CalculatedRows);
+
+  // 4. Re-print the Shipping Sums at the very bottom of the columns
+  SumaBeNuolaidos.insertAdjacentHTML('beforeend', "<p class=\"prekiu-listas\">".concat(data.shippingPrice.toFixed(2), "</p>"));
+  SumaSuNuolaida.insertAdjacentHTML('beforeend', "<p class=\"prekiu-listas\">".concat(data.shippingPrice.toFixed(2), "</p>"));
+
+  // 5. Update Final Totals
+  var FinalTotals = CalculateTotalSums(CalculatedRows, data.shippingPrice);
+  PrintFinalTotals(FinalTotals);
+
+  // Update shipping sum displays if they exist as tags
+  var shipBe = document.querySelector('.shipping-sum-be');
+  if (shipBe) shipBe.innerText = data.shippingPrice.toFixed(2);
+};
+
+// -----------------------------------------------------------------------------------------------
+
+// Helper function to keep code clean
+function renderInvoiceData(data) {
+  PrintInvoiceNrAndDate(data);
+  PrintBuyerData(data);
+  PrintSellerData(data);
+  PrintRowNumberAndItemName(data);
+  PrintQuantity(data);
+  PrintUnitPrice(data);
+  var CalculatedRows = data.items.map(function (item) {
+    return CalculateRowSums(item);
+  });
+  PrintCalculatedDiscountColumn(CalculatedRows, data);
+  PrintSumsWithoutDiscount(CalculatedRows);
+  PrintSumsWithDiscount(CalculatedRows);
+  // CalculateTotalSums(CalculatedRows);
+  PridedamShipping(data);
+  var FinalTotals = CalculateTotalSums(CalculatedRows, data.shippingPrice);
+  PrintFinalTotals(FinalTotals);
+  PrintDueDate(data);
+  console.log(CalculatedRows);
+}
+
+/***/ },
+
+/***/ "./src/crud-code.js"
+/*!**************************!*\
+  !*** ./src/crud-code.js ***!
+  \**************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/v4.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+// Programavo Marytė - Nelyst prie kodo - kodas UNIVERSALUS CRUD
+var OopCrud = /*#__PURE__*/_createClass(function OopCrud(key) {
+  var _this = this;
+  _classCallCheck(this, OopCrud);
+  _defineProperty(this, "read", function (id) {
+    return _this.list.find(function (item) {
+      return item.id == id;
+    });
+  });
+  _defineProperty(this, "readLocalStorage", function (_) {
+    var data = localStorage.getItem(_this.key);
+
+    // ALTERNATYVA su ternary metodu
+    // null === data ? this.list = [] : this.list = JSON.parse(data);
+
+    if (null === data) {
+      _this.list = [];
+    } else {
+      _this.list = JSON.parse(data);
+    }
+  });
+  _defineProperty(this, "writeLocalStorage", function (_) {
+    // let data = JSON.stringify(this.list);
+    // localStorage.setItem(this.key, data);
+    localStorage.setItem(_this.key, JSON.stringify(_this.list));
+  });
+  _defineProperty(this, "Store", function (data) {
+    var id = (0,uuid__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    var dataToStore = _objectSpread(_objectSpread({}, data), {}, {
+      id: id
+    });
+    _this.list.unshift(dataToStore);
+    _this.writeLocalStorage();
+    return dataToStore;
+  });
+  _defineProperty(this, "Destroy", function (id) {
+    _this.list = _this.list.filter(function (item) {
+      return item.id != id;
+    });
+    _this.writeLocalStorage();
+  });
+  _defineProperty(this, "Update", function (id, data) {
+    _this.list = _this.list.map(function (item) {
+      return item.id == id ? _objectSpread(_objectSpread(_objectSpread({}, item), data), {}, {
+        id: id
+      }) : item;
+    });
+    _this.writeLocalStorage();
+  });
+  this.key = key;
+  this.readLocalStorage();
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OopCrud); // eksportuojam failą Ls.js
 
 /***/ },
 
@@ -349,7 +1053,6 @@ DangerButton.addEventListener('click', SecretWeapon);
   \************************/
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
@@ -421,6 +1124,18 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
 /******/ 		};
 /******/ 	})();
 /******/ 	

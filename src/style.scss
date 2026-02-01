@@ -133,6 +133,22 @@ section.buyer-seller {
     // padding-right: 150px;
     margin-bottom: 70px;
 
+    input.buyer-input {
+        border: 1px dashed #ccc;
+        background: rgba(255, 255, 255, 0.5);
+        font-size: 14px;
+        padding: 2px 5px;
+        max-width: 250px;
+        color: #333;
+        border-radius: 4px;
+
+        &:focus {
+            outline: none;
+            border: 1px solid #ff6600; // Beaver Corp Orange
+            background: #fff;
+        }
+    }
+
     div.buyer {
         display: flex;
         flex-direction: column;
@@ -183,16 +199,39 @@ section.products-list {
 
     div.eilesNr,
     div.preke,
-    div.kiekis,
+    div.kiekis {
+
+        input.edit-qty {
+            width: 60px;
+            border: 1px solid #ddd;
+            font-weight: bold;
+            margin: 2px;
+            border-radius: 5px;
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            align-items: center;
+            align-self: center;
+            // min-height: 40px;
+            box-sizing: border-box;
+
+            &:focus {
+                border-color: #ff6600;
+            }
+        }
+    }
+
     div.vnt-kaina,
     div,
-    nuolaida,
+    div.nuolaida,
     div.nuolaidos-tipas,
     div.suma-be-nuolaidos,
     div.suma-su-nuolaida {
 
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         align-items: center;
         border-top: 1px solid black;
         border-bottom: 1px solid black;
@@ -237,6 +276,36 @@ section.products-list {
             width: 100%;
             min-height: 50px;
             box-sizing: border-box;
+        }
+
+        input.edit-name {
+            // width: 100%; // or whatever fits your column
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input.edit-price {
+            width: 70px; // or whatever fits your column
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .discount-edit-container {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px; // match your row height
+
+            input {
+                width: 50px;
+            }
+
+            select {
+                width: 60px;
+            }
         }
     }
 }
@@ -404,3 +473,25 @@ section.bebras-section {
         transform: translateY(0px) scale(1);
     }
 }
+
+// input.buyer-input,
+// input.edit-qty {
+//     border: 1px dashed #ccc;
+//     background: transparent;
+//     font-size: inherit;
+//     font-family: inherit;
+//     padding: 2px;
+//     width: 100%;
+
+//     &:focus {
+//         outline: none;
+//         border-color: #ff6600; // Beaver orange!
+//         background: #fff8f0;
+//     }
+// }
+
+// // Make the quantity inputs smaller
+// input.edit-qty {
+//     width: 50px;
+//     text-align: center;
+// }

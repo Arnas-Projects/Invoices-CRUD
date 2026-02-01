@@ -1,11 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+    <title>Invoice</title>
 </head>
+
 <body>
-    
+
+    <header class="container">
+        <div class="header-div">
+            <div class="invoice-header">PVM Sąskaita - Faktūra</div>
+            <div class="header-logo">
+                <img src="../images/beaver-corp.png" width="220" alt="Beaver CORP">
+            </div>
+        </div>
+    </header>
+
+    <div class="sask-div container">
+        <div class="sask-nr-div">
+            <p>Sąskaitos nr.: </p>
+            <button class="bebras-button">Do not press this</button>
+        </div>
+        <div class="sask-date-div">
+            <p>Sąskaitos data: </p>
+            <!-- <button class="bebras-button">Are you sure? THERE'S NO GOING BACK</button> -->
+        </div>
+    </div>
+
+
+    <section class="buyer-seller container">
+        <div class="buyer">
+            <h4>Pirkėjas</h4>
+            <p>Įmonės pavadinimas: &nbsp; &nbsp;</p>
+            <p>Adresas: &nbsp; &nbsp;</p>
+            <p>Įmonės kodas: &nbsp; &nbsp;</p>
+            <p>PVM mokėtojo kodas: &nbsp; &nbsp;</p>
+            <p>Mob. tel. nr.: &nbsp; &nbsp;</p>
+            <p>El. paštas: &nbsp; &nbsp;</p>
+        </div>
+
+        <div class="seller">
+            <h4>Pardavėjas: &nbsp; &nbsp;</h4>
+            <p>Įmonės pavadinimas: &nbsp; &nbsp;</p>
+            <p>Adresas: &nbsp; &nbsp;</p>
+            <p>Įmonės kodas: &nbsp; &nbsp;</p>
+            <p>PVM mokėtojo kodas: &nbsp; &nbsp;</p>
+            <p>Mob. tel. nr.: &nbsp; &nbsp;</p>
+            <p>El. paštas: &nbsp; &nbsp;</p>
+        </div>
+    </section>
+
+    <section class="products-list container">
+        <div class="eilesNr">
+            <h4>Eil. nr.</h4>
+            <!-- <p>1</p>
+            <p>2</p>
+            <p>3</p> -->
+        </div>
+        <div class="preke">
+            <h4 class="special">Prekės pavadinimas</h4>
+            <!-- <p>Kėdė</p>
+            <p>Stalas</p>
+            <p>Šviestuvas</p> -->
+            <!-- <p>placeholder for "shipping/transportation"</p> -->
+        </div>
+        <div class="kiekis">
+            <h4>Kiekis,<br>vnt.</h4>
+            <!-- <p>5</p>
+            <p>2</p>
+            <p>15</p> -->
+            <!-- <p>placeholder for shipping (needed for esthetics)</p> -->
+        </div>
+        <div class="vnt-kaina">
+            <h4>Vnt. kaina, EUR</h4>
+            <!-- <p>100</p>
+            <p>250</p>
+            <p>7</p> -->
+            <!-- <p>placeholder for "shippingPrice" value</p> -->
+        </div>
+        <div class="nuolaida">
+            <h4>VNT Nuolaida,<br>EUR</h4>
+            <!-- <p></p>
+            <p></p>
+            <p></p> -->
+            <!-- <p>placeholder for shipping (needed for esthetics)</p> -->
+        </div>
+        <div class="suma-be-nuolaidos">
+            <h4>Suma be nuolaidos<br> be PVM,<br> EUR</h4>
+            <!-- <p></p>
+            <p></p>
+            <p></p> -->
+            <!-- <p>placeholder for "shippingPrice" value (needed for for sum)</p> -->
+        </div>
+        <div class="suma-su-nuolaida">
+            <h4>Suma su nuolaida<br> be PVM,<br> EUR</h4>
+            <!-- <p></p>
+            <p></p>
+            <p></p> -->
+            <!-- <p>placeholder for "shippingPrice" value (needed for for sum)</p> -->
+        </div>
+    </section>
+
+
+    <section class="final-sum container">
+        <div>
+            <p class="galutinis-be-pvm">Suma be PVM: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+            <p class="pvm">PVM suma (21%): &nbsp; &nbsp; &nbsp;</p>
+            <p class="galutinis-su-pvm">Suma su PVM: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+            <p></p>
+        </div>
+    </section>
+
+
+    <div class="container">
+        <p class="apmoketi-iki">Apmokėti iki: </p>
+    </div>
+
+
+    <section class="payment-term">
+
+        <div class="sask-israse">
+            <div>Sąskaitą išrašė: </div>
+            <div class="israse-vardas">
+                <p>Jonas Jonaitis</p>
+                <div class="line"></div>
+                <p>(vardas, pavardė, parašas)</p>
+            </div>
+        </div>
+
+        <div class="sask-prieme">
+            <div>Sąskaitą priėmė: </div>
+            <div class="prieme-vardas">
+                <p>Petriukas Petraitis</p>
+                <div class="line"></div>
+                <p>(vardas, pavardė, parašas)</p>
+            </div>
+        </div>
+
+
+    </section>
+
+    <div class="actions">
+        <button id="save-invoice">Save</button>
+        <button id="api-refresh" onclick="window.location.reload()">Update (New from API)</button>
+        <button onclick="window.location.href='list.html'">Cancel</button>
+    </div>
+
 </body>
+
 </html>

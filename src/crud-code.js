@@ -11,6 +11,10 @@ class OopCrud {
         this.readLocalStorage();
     }
 
+    read = id => {
+        return this.list.find(item => item.id == id);
+    };
+
     readLocalStorage = _ => {
         let data = localStorage.getItem(this.key);
 
@@ -26,8 +30,9 @@ class OopCrud {
     };
 
     writeLocalStorage = _ => {
-        let data = JSON.stringify(this.list);
-        localStorage.setItem(this.key, data);
+        // let data = JSON.stringify(this.list);
+        // localStorage.setItem(this.key, data);
+        localStorage.setItem(this.key, JSON.stringify(this.list));
     };
 
     Store = data => {
@@ -35,9 +40,10 @@ class OopCrud {
         const dataToStore = {
             ...data,
             id
-        }
+        };
         this.list.unshift(dataToStore);
         this.writeLocalStorage();
+        return dataToStore;
     };
 
     Destroy = id => {
