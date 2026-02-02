@@ -488,6 +488,7 @@ var CalculateRowSums = function CalculateRowSums(item) {
 
 var Nuolaida = document.querySelector('section.products-list > div.nuolaida');
 var PrintCalculatedDiscountColumn = function PrintCalculatedDiscountColumn(CalculatedRows, allItems) {
+  var activeIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   var isEditable = currentPage.includes('edit.html');
   CalculatedRows.forEach(function (calculatedRow, index) {
     var container = document.createElement('div');
@@ -507,7 +508,7 @@ var PrintCalculatedDiscountColumn = function PrintCalculatedDiscountColumn(Calcu
       typeSelect.classList.add('edit-discount-type');
       var options = [{
         val: 'none',
-        text: 'Nėra'
+        text: 'Be nuolaidos'
       }, {
         val: 'percentage',
         text: '%'
@@ -536,13 +537,21 @@ var PrintCalculatedDiscountColumn = function PrintCalculatedDiscountColumn(Calcu
             value: newVal
           };
         }
-        RefreshUI(allItems);
+        RefreshUI(allItems, index);
       };
       valInput.addEventListener('input', updateDiscount);
       typeSelect.addEventListener('change', updateDiscount);
       container.appendChild(valInput);
       container.appendChild(typeSelect);
       Nuolaida.appendChild(container);
+
+      // NEW: If this was the input we were just typing in, give it focus back!
+      if (index === activeIndex) {
+        setTimeout(function () {
+          return valInput.focus();
+        }, 0);
+        // We use setTimeout 0 to wait until the browser finishes drawing
+      }
     } else {
       // View mode (same as before)
       var DiscountTag = document.createElement('p');
@@ -700,7 +709,7 @@ var PrintDueDate = function PrintDueDate(dueDateData) {
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 if (currentPage.includes('create.html') || currentPage.includes('view.html') || currentPage.includes('edit.html')) {
-  console.log('Rendering Invoice Page...');
+  // console.log('Kraunam naują sąsk. iš API...');
 
   // Check if we have an ID in the URL
   var urlParams = new URLSearchParams(window.location.search);
@@ -741,13 +750,13 @@ if (currentPage.includes('create.html') || currentPage.includes('view.html') || 
       } else {
         // EDIT MODE: Change Save to Update
         if (saveButton) {
-          saveButton.innerText = 'Update Invoice';
+          saveButton.innerText = 'Išsaugoti pakeitimus';
           saveButton.style.display = 'block'; // Ensure it's visible
           saveButton.addEventListener('click', function (_) {
             // Use your Update method from OopCRUD
             // Here we pass the editId and the data object
             InvoiceStorage.Update(editId, data);
-            alert('Invoice updated!');
+            alert('Sąskaita - Faktūra atnaujinta!');
             window.location.href = 'list.html';
           });
         }
@@ -764,7 +773,7 @@ if (currentPage.includes('create.html') || currentPage.includes('view.html') || 
       if (saveButton) {
         saveButton.addEventListener('click', function (_) {
           InvoiceStorage.Store(data);
-          alert('Invoice saved successfully!');
+          alert('Sąskaita - Faktūra išsaugota!');
           window.location.href = 'list.html';
         });
       }
@@ -780,10 +789,10 @@ if (currentPage.includes('create.html') || currentPage.includes('view.html') || 
 if (currentPage.includes('list.html')) {
   var listBin = document.querySelector('#invoice-list-bin');
   if (InvoiceStorage.list.length === 0) {
-    listBin.innerHTML = '<p>No invoices saved yet.</p>';
+    listBin.innerHTML = '<p>Sąrašas yra tuščias.</p>';
   } else {
     // Create a simple table or list
-    var html = "\n            <table border=\"1\" style=\"width:100%; border-collapse: collapse; margin-top: 20px;\">\n                <thead>\n                    <tr>\n                        <th>Number</th>\n                        <th>Date</th>\n                        <th>Amount (with VAT)</th>\n                        <th>Actions</th>\n                    </tr>\n                </thead>\n                <tbody>\n        ";
+    var html = "\n            <table border=\"1\" style=\"width:100%; border-collapse: collapse; margin-top: 20px;\">\n                <thead>\n                    <tr>\n                        <th>S\u0105skaitos nr.</th>\n                        <th>S\u0105skaitos data</th>\n                        <th>Suma su PVM, EUR</th>\n                        <th class=\"special-th\">Pasirinkite veiksm\u0105</th>\n                    </tr>\n                </thead>\n                <tbody>\n        ";
     InvoiceStorage.list.forEach(function (inv) {
       // We need the total sum for the list. 
       // We can reuse your logic!
@@ -791,7 +800,7 @@ if (currentPage.includes('list.html')) {
         return CalculateRowSums(item);
       });
       var totals = CalculateTotalSums(rows, inv.shippingPrice);
-      html += "\n                <tr>\n                    <td>".concat(inv.number, "</td>\n                    <td>").concat(inv.date, "</td>\n                    <td>").concat(totals.TotalSumWithVAT.toFixed(2), " EUR</td>\n                    <td>\n                        <button class=\"view-btn\" data-id=\"").concat(inv.id, "\">View</button>\n                        <button class=\"edit-btn\" data-id=\"").concat(inv.id, "\">Edit</button>\n                        <button class=\"delete-btn\" data-id=\"").concat(inv.id, "\" style=\"color:red\">Delete</button>\n                    </td>\n                </tr>\n            ");
+      html += "\n                <tr>\n                    <td>".concat(inv.number, "</td>\n                    <td>").concat(inv.date, "</td>\n                    <td>").concat(totals.TotalSumWithVAT.toFixed(2), " EUR</td>\n                    <td class=\"buttons-td\">\n                        <div>\n                            <button class=\"view-btn\" data-id=\"").concat(inv.id, "\">Per\u017Ei\u016Br\u0117ti</button>\n                            <button class=\"edit-btn\" data-id=\"").concat(inv.id, "\">Redaguoti</button>\n                            <button class=\"delete-btn\" data-id=\"").concat(inv.id, "\">Delete</button>\n                        </div>\n                    </td>\n                </tr>\n            ");
     });
     html += "</tbody></table>";
     listBin.innerHTML = html;
@@ -815,7 +824,7 @@ if (currentPage.includes('list.html')) {
     // Add event listeners for Delete buttons
     document.querySelectorAll('.delete-btn').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
-        if (confirm('Are you sure you want to delete this invoice?')) {
+        if (confirm('Ar tikrai norite ištrinti šią sąskaitą - faktūrą?')) {
           var _id = e.target.dataset.id;
           InvoiceStorage.Destroy(_id);
           window.location.reload(); // Refresh the list
@@ -869,7 +878,7 @@ var SecretWeapon = function SecretWeapon(e) {
     });
   });
 };
-if (currentPage.includes('create.html') || currentPage.includes('view.html')) {
+if (currentPage.includes('create.html') || currentPage.includes('view.html') || currentPage.includes('edit.html')) {
   DangerButton.addEventListener('click', SecretWeapon);
 }
 ;
@@ -905,10 +914,26 @@ if (currentPage.includes('create.html') || currentPage.includes('view.html')) {
 
 var RefreshUI = function RefreshUI(data) {
   var _GalutineSumaBePVM$qu, _PVMsuma$querySelecto, _GalutineSumaSuPVM$qu;
+  var activeIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   // 1. Clear the old numbers from the screen so they don't stack
-  Nuolaida.innerHTML = '<h4>Nuolaida</h4>';
-  SumaBeNuolaidos.innerHTML = '<h4>Suma be nuolaidos</h4>';
-  SumaSuNuolaida.innerHTML = '<h4>Suma su nuolaida</h4>';
+  Nuolaida.innerHTML = '<h4>VNT Nuolaida,<br>EUR</h4>';
+  SumaBeNuolaidos.innerHTML = '<h4>Suma be nuolaidos<br> be PVM,<br> EUR</h4>';
+  SumaSuNuolaida.innerHTML = '<h4>Suma su nuolaida<br> be PVM,<br> EUR</h4>';
+
+  // 2. Clear the old Shipping labels from the static columns
+  // (We use a specific selector to remove the <p> and <input> tags we added manually)
+  EilesNr.querySelectorAll('.shipping-row').forEach(function (el) {
+    return el.remove();
+  });
+  PrekesPavadinimas.querySelectorAll('.shipping-row').forEach(function (el) {
+    return el.remove();
+  });
+  Kiekis.querySelectorAll('.shipping-row').forEach(function (el) {
+    return el.remove();
+  });
+  VNTkaina.querySelectorAll('.shipping-row').forEach(function (el) {
+    return el.remove();
+  });
 
   // Clear the spans inside the final total paragraphs
   (_GalutineSumaBePVM$qu = GalutineSumaBePVM.querySelector('span')) === null || _GalutineSumaBePVM$qu === void 0 || _GalutineSumaBePVM$qu.remove();
@@ -926,13 +951,17 @@ var RefreshUI = function RefreshUI(data) {
   });
 
   // 3. Re-print the updated numbers
-  PrintCalculatedDiscountColumn(CalculatedRows, data);
+  PrintCalculatedDiscountColumn(CalculatedRows, data, activeIndex);
   PrintSumsWithoutDiscount(CalculatedRows);
   PrintSumsWithDiscount(CalculatedRows);
+
+  // 5. FIX: Re-run the Shipping logic so it reappears at the bottom
+  // PridedamShipping(data);
 
   // 4. Re-print the Shipping Sums at the very bottom of the columns
   SumaBeNuolaidos.insertAdjacentHTML('beforeend', "<p class=\"prekiu-listas\">".concat(data.shippingPrice.toFixed(2), "</p>"));
   SumaSuNuolaida.insertAdjacentHTML('beforeend', "<p class=\"prekiu-listas\">".concat(data.shippingPrice.toFixed(2), "</p>"));
+  Nuolaida.insertAdjacentHTML('beforeend', "<p class=\"prekiu-listas\">-</p>");
 
   // 5. Update Final Totals
   var FinalTotals = CalculateTotalSums(CalculatedRows, data.shippingPrice);

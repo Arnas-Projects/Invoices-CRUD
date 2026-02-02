@@ -14,7 +14,14 @@
 
 <body>
 
+
+
     <header class="container">
+        <div style="justify-content: flex-end; gap: 15px;" class="actions">
+            <button id="save-invoice">Išsaugoti</button>
+            <button id="api-refresh" onclick="window.location.reload()">Atnaujinti puslapį</button>
+            <button onclick="window.location.href='list.html'">Grįžti</button>
+        </div>
         <div class="header-div">
             <div class="invoice-header">PVM Sąskaita - Faktūra</div>
             <div class="header-logo">
@@ -147,11 +154,7 @@
 
     </section>
 
-    <div class="actions">
-        <button id="save-invoice">Save</button>
-        <button id="api-refresh" onclick="window.location.reload()">Update (New from API)</button>
-        <button onclick="window.location.href='list.html'">Cancel</button>
-    </div>
+
 
 </body>
 

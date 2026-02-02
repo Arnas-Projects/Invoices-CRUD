@@ -17,8 +17,146 @@ body {
     width: 100%;
     max-width: $width;
     margin: 0 auto;
-
 }
+
+div.container {
+
+    h1.inv-list {
+        text-transform: uppercase;
+        margin-bottom: 25px;
+    }
+
+    button.inv-list {
+        font-size: 17px;
+        text-transform: uppercase;
+        padding: 10px 15px;
+        border: 3px solid darkslategray;
+        color: darkslategray;
+        font-weight: bold;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: 0.3s ease-out;
+    }
+
+    button.inv-list:hover {
+        transform: translateY(-5px);
+        color: white;
+        background-color: darkslategray;
+    }
+
+    button.inv-list:active {
+        transform: translateY(0px) scale(1);
+    }
+
+    hr {
+        margin: 25px 0;
+    }
+
+    div#invoice-list-bin p {
+        font-size: 26px;
+        font-style: italic;
+    }
+
+    th {
+        padding: 15px;
+        font-size: 20px;
+    }
+
+    th.special-th {
+        width: 250px;
+    }
+
+    td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    td.buttons-td {
+
+        div {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    }
+
+    button.view-btn,
+    button.edit-btn,
+    button.delete-btn {
+        font-size: 16px;
+        padding: 5px 10px;
+        border: 3px solid darkslategray;
+        color: darkslategray;
+        font-weight: bold;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: 0.3s ease-out;
+    }
+
+    button.edit-btn {
+        border-color: darkseagreen;
+        color: darkseagreen;
+    }
+
+    button.delete-btn {
+        border-color: crimson;
+        color: crimson;
+    }
+
+    button.view-btn:hover,
+    button.edit-btn:hover,
+    button.delete-btn:hover {
+        transform: translateY(-5px);
+        color: white;
+        background-color: darkslategray;
+    }
+
+    button.edit-btn:hover {
+        background-color: darkseagreen;
+    }
+
+    button.delete-btn:hover {
+        background-color: crimson;
+    }
+
+    button.view-btn:active,
+    button.edit-btn:active,
+    button.delete-btn:active {
+        transform: translateY(0px) scale(1);
+    }
+}
+
+
+div.actions {
+    width: $width;
+    display: flex;
+    margin: 25px 0 25px auto;
+    max-width: 450px;
+    justify-content: space-between;
+
+    button {
+        font-size: 16px;
+        text-transform: uppercase;
+        padding: 10px 15px;
+        border: 3px solid darkslategray;
+        color: darkslategray;
+        font-weight: bold;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: 0.3s ease-out;
+    }
+
+    button:hover {
+        transform: translateY(-5px);
+        color: white;
+        background-color: darkslategray;
+    }
+
+    button:active {
+        transform: translateY(0px) scale(1);
+    }
+}
+
 
 header {
     // background-color: lightsalmon;
@@ -190,6 +328,51 @@ section.buyer-seller {
 }
 
 section.products-list {
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+
+    section.products-list h4 {
+        height: 100px;
+        border-bottom: 1px solid black;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    section.products-list {
+        div.eilesNr {
+            width: 50px;
+        }
+
+        div.preke {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        div.kiekis {
+            width: 80px;
+        }
+
+        div.vnt-kaina {
+            width: 100px;
+        }
+
+        div.nuolaida {
+            width: 140px;
+        }
+
+        // Extra width for input + select
+        div.suma-be-nuolaidos {
+            width: 120px;
+        }
+
+        div.suma-su-nuolaida {
+            width: 120px;
+        }
+    }
+
     // background-color: lightsalmon;
     display: flex;
     margin: 0 auto 50px auto;
@@ -229,12 +412,35 @@ section.products-list {
     div.suma-be-nuolaidos,
     div.suma-su-nuolaida {
 
+        // Ensure every child (input or p) behaves like a row
+        &>p,
+        &>input,
+        &>.discount-edit-container {
+            // height: 60px; // Unified height for all rows
+            // width: 150px;
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            select.edit-discount-type {
+                width: 100%;
+                flex-grow: 1;
+            }
+        }
+
+        input.edit-price,
+        input.edit-qty {
+            height: 40px; // The input itself is smaller
+            margin-top: 10px; // Center it within the 60px "row"
+            margin-bottom: 10px;
+        }
+
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
         padding: 0 5px;
         // flex-wrap: wrap;
 
@@ -250,7 +456,7 @@ section.products-list {
             align-items: center;
             height: 100px;
             // border-top: 1px solid black;
-            border-bottom: 1px solid black;
+            // border-bottom: 1px solid black;
         }
 
         p.eiles-numeris {
