@@ -650,18 +650,57 @@ if (currentPage.includes('create.html') || currentPage.includes('view.html') || 
                 // VIEW MODE: Just hide the button
                 if (saveButton) saveButton.style.display = 'none';
             } else {
-                // EDIT MODE: Change Save to Update
-                if (saveButton) {
-                    saveButton.innerText = 'Išsaugoti pakeitimus';
-                    saveButton.style.display = 'block'; // Ensure it's visible
-                    saveButton.addEventListener('click', _ => {
-                        // Use your Update method from OopCRUD
-                        // Here we pass the editId and the data object
-                        InvoiceStorage.Update(editId, data);
-                        alert('Sąskaita - Faktūra atnaujinta!');
-                        window.location.href = 'list.html';
-                    });
+
+                if (editId) {
+                    if (saveButton) {
+                        saveButton.innerText = 'Update Invoice';
+                        saveButton.style.display = 'block';
+
+                        saveButton.addEventListener('click', () => { // <--- Start of function
+
+                            // 1. Check for invalid data
+                            const hasInvalidData = data.items.some(item => {
+                                const isPriceInvalid = item.price === '' || isNaN(item.price) || item.price < 0;
+                                const isQtyInvalid = item.quantity === '' || isNaN(item.quantity) || item.quantity < 0;
+
+                                let isDiscountInvalid = false;
+                                if (item.discount && item.discount.value < 0) {
+                                    isDiscountInvalid = true;
+                                }
+                                return isPriceInvalid || isQtyInvalid || isDiscountInvalid;
+                            });
+
+                            const isShippingInvalid = data.shippingPrice < 0;
+
+                            // 2. The IF block must be inside the listener so 'return' works
+                            if (hasInvalidData || isShippingInvalid) {
+                                alert('Įvesti klaidingi duomenys!');
+                                return; // This now correctly stops the function execution
+                            }
+
+                            // 3. Save if valid
+                            InvoiceStorage.Update(editId, data);
+                            alert('Sąskaita - faktūra atnaujinta!');
+                            window.location.href = 'list.html';
+
+                        }); // <--- End of function
+                    }
                 }
+
+                // // EDIT MODE: Change Save to Update
+                // if (saveButton) {
+
+
+                //     saveButton.innerText = 'Išsaugoti pakeitimus';
+                //     saveButton.style.display = 'block'; // Ensure it's visible
+                //     saveButton.addEventListener('click', _ => {
+                //         // Use your Update method from OopCRUD
+                //         // Here we pass the editId and the data object
+                //         InvoiceStorage.Update(editId, data);
+                //         alert('Sąskaita - Faktūra atnaujinta!');
+                //         window.location.href = 'list.html';
+                //     });
+
             }
         }
     } else {

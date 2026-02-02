@@ -222,17 +222,18 @@ section.buyer-seller {
   margin-bottom: 70px;
 }
 section.buyer-seller input.buyer-input {
-  border: 1px dashed #ccc;
+  border: 2px solid #ccc;
   background: rgba(255, 255, 255, 0.5);
   font-size: 14px;
   padding: 2px 5px;
   max-width: 250px;
   color: #333;
   border-radius: 4px;
+  margin: 5px;
 }
 section.buyer-seller input.buyer-input:focus {
   outline: none;
-  border: 1px solid #ff6600;
+  border: 2px solid green;
   background: #fff;
 }
 section.buyer-seller div.buyer {
@@ -286,6 +287,9 @@ section.products-list section.products-list div.preke {
   flex-grow: 1;
   min-width: 200px;
 }
+section.products-list section.products-list div.preke input.edit-name {
+  border: 2px solid gray;
+}
 section.products-list section.products-list div.kiekis {
   width: 80px;
 }
@@ -311,7 +315,7 @@ section.products-list div.eilesNr input.edit-qty,
 section.products-list div.preke input.edit-qty,
 section.products-list div.kiekis input.edit-qty {
   width: 60px;
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
   font-weight: bold;
   margin: 2px;
   border-radius: 5px;
@@ -344,6 +348,7 @@ section.products-list div.suma-be-nuolaidos > .discount-edit-container,
 section.products-list div.suma-su-nuolaida > p,
 section.products-list div.suma-su-nuolaida > input,
 section.products-list div.suma-su-nuolaida > .discount-edit-container {
+  height: 40px;
   margin: 0;
   display: flex;
   flex-direction: row;
@@ -366,8 +371,31 @@ section.products-list div.suma-be-nuolaidos > .discount-edit-container select.ed
 section.products-list div.suma-su-nuolaida > p select.edit-discount-type,
 section.products-list div.suma-su-nuolaida > input select.edit-discount-type,
 section.products-list div.suma-su-nuolaida > .discount-edit-container select.edit-discount-type {
+  border: 2px solid #ddd;
+  border-radius: 4px;
   width: 100%;
   flex-grow: 1;
+  height: 40px;
+  width: 80px;
+}
+section.products-list div.vnt-kaina > p input.edit-discount-val, section.products-list div.vnt-kaina > input input.edit-discount-val, section.products-list div.vnt-kaina > .discount-edit-container input.edit-discount-val,
+section.products-list div > p input.edit-discount-val,
+section.products-list div > input input.edit-discount-val,
+section.products-list div > .discount-edit-container input.edit-discount-val,
+section.products-list div.nuolaida > p input.edit-discount-val,
+section.products-list div.nuolaida > input input.edit-discount-val,
+section.products-list div.nuolaida > .discount-edit-container input.edit-discount-val,
+section.products-list div.nuolaidos-tipas > p input.edit-discount-val,
+section.products-list div.nuolaidos-tipas > input input.edit-discount-val,
+section.products-list div.nuolaidos-tipas > .discount-edit-container input.edit-discount-val,
+section.products-list div.suma-be-nuolaidos > p input.edit-discount-val,
+section.products-list div.suma-be-nuolaidos > input input.edit-discount-val,
+section.products-list div.suma-be-nuolaidos > .discount-edit-container input.edit-discount-val,
+section.products-list div.suma-su-nuolaida > p input.edit-discount-val,
+section.products-list div.suma-su-nuolaida > input input.edit-discount-val,
+section.products-list div.suma-su-nuolaida > .discount-edit-container input.edit-discount-val {
+  border: 2px solid #ddd;
+  border-radius: 4px;
 }
 section.products-list div.vnt-kaina input.edit-price,
 section.products-list div.vnt-kaina input.edit-qty,
@@ -384,6 +412,7 @@ section.products-list div.suma-su-nuolaida input.edit-qty {
   height: 40px;
   margin-top: 10px;
   margin-bottom: 10px;
+  border: 2px solid #ddd;
 }
 section.products-list div.vnt-kaina,
 section.products-list div,
@@ -456,7 +485,7 @@ section.products-list div.nuolaida input.edit-name,
 section.products-list div.nuolaidos-tipas input.edit-name,
 section.products-list div.suma-be-nuolaidos input.edit-name,
 section.products-list div.suma-su-nuolaida input.edit-name {
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
   padding: 5px;
   border-radius: 4px;
   font-size: 14px;
@@ -468,7 +497,7 @@ section.products-list div.nuolaidos-tipas input.edit-price,
 section.products-list div.suma-be-nuolaidos input.edit-price,
 section.products-list div.suma-su-nuolaida input.edit-price {
   width: 70px;
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
   padding: 5px;
   border-radius: 4px;
   font-size: 14px;

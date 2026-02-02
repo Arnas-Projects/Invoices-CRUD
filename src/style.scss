@@ -272,17 +272,18 @@ section.buyer-seller {
     margin-bottom: 70px;
 
     input.buyer-input {
-        border: 1px dashed #ccc;
+        border: 2px solid #ccc;
         background: rgba(255, 255, 255, 0.5);
         font-size: 14px;
         padding: 2px 5px;
         max-width: 250px;
         color: #333;
         border-radius: 4px;
+        margin: 5px;
 
         &:focus {
             outline: none;
-            border: 1px solid #ff6600; // Beaver Corp Orange
+            border: 2px solid green; // Beaver Corp Orange
             background: #fff;
         }
     }
@@ -349,6 +350,10 @@ section.products-list {
         div.preke {
             flex-grow: 1;
             min-width: 200px;
+
+            input.edit-name {
+                border: 2px solid gray;
+            }
         }
 
         div.kiekis {
@@ -386,7 +391,7 @@ section.products-list {
 
         input.edit-qty {
             width: 60px;
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
             font-weight: bold;
             margin: 2px;
             border-radius: 5px;
@@ -416,7 +421,7 @@ section.products-list {
         &>p,
         &>input,
         &>.discount-edit-container {
-            // height: 60px; // Unified height for all rows
+            height: 40px; // Unified height for all rows
             // width: 150px;
             margin: 0;
             display: flex;
@@ -425,8 +430,17 @@ section.products-list {
             justify-content: center;
 
             select.edit-discount-type {
+                border: 2px solid #ddd;
+                border-radius: 4px;
                 width: 100%;
                 flex-grow: 1;
+                height: 40px;
+                width: 80px;
+            }
+
+            input.edit-discount-val {
+                border: 2px solid #ddd;
+                border-radius: 4px;
             }
         }
 
@@ -435,6 +449,7 @@ section.products-list {
             height: 40px; // The input itself is smaller
             margin-top: 10px; // Center it within the 60px "row"
             margin-bottom: 10px;
+            border: 2px solid #ddd;
         }
 
         display: flex;
@@ -486,7 +501,7 @@ section.products-list {
 
         input.edit-name {
             // width: 100%; // or whatever fits your column
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
             padding: 5px;
             border-radius: 4px;
             font-size: 14px;
@@ -494,7 +509,7 @@ section.products-list {
 
         input.edit-price {
             width: 70px; // or whatever fits your column
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
             padding: 5px;
             border-radius: 4px;
             font-size: 14px;
